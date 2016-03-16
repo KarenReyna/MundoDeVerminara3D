@@ -32,7 +32,7 @@ bool ayuda = true;
 bool contar;
 
 bool inicio = true, pausado, comenzado, reiniciar, terminado, jugando;
-bool autores, instrucciones;
+bool autores, instrucciones,historia;
 
 // Para objetos 3D
 GLuint texName[36];                                     // Texturas
@@ -153,13 +153,13 @@ static void pantallaInicial(){
         }
     glPopMatrix();
 
-    // Estrellas
+    /* Estrellas
     glPushMatrix();
         glTranslatef((ancho/4),100,-45);
         glRotatef(95,1,1,0);
         glScalef(20,20,15);
         estrellas();
-    glPopMatrix();
+    glPopMatrix();*/
 
     // Instrucciones
     glPushMatrix();
@@ -170,6 +170,7 @@ static void pantallaInicial(){
             glScalef(2.5,1,2);
             glRectf(20, 50, 90, 90);
         glPopMatrix();
+        glTranslatef(0,0,20);
         letreroMenu("I - Instrucciones");
     glPopMatrix();
 
@@ -182,6 +183,7 @@ static void pantallaInicial(){
             glScalef(2.5,1,2);
             glRectf(20, 50, 90, 90);
         glPopMatrix();
+        glTranslatef(0,0,20);
         letreroMenu("H - Historia");
     glPopMatrix();
 
@@ -194,6 +196,7 @@ static void pantallaInicial(){
             glScalef(2.5,1,2);
             glRectf(20, 50, 90, 90);
         glPopMatrix();
+        glTranslatef(0,0,20);
         letreroMenu("C - Comenzar");
     glPopMatrix();
 
@@ -206,6 +209,7 @@ static void pantallaInicial(){
             glScalef(2.5,1,2);
             glRectf(20, 50, 90, 90);
         glPopMatrix();
+        glTranslatef(0,0,20);
         letreroMenu("P - Pausar");
     glPopMatrix();
 
@@ -218,6 +222,7 @@ static void pantallaInicial(){
             glScalef(2.5,1,2);
             glRectf(20, 50, 90, 90);
         glPopMatrix();
+        glTranslatef(0,0,20);
         letreroMenu("R - Reiniciar");
     glPopMatrix();
 
@@ -230,6 +235,7 @@ static void pantallaInicial(){
             glScalef(2.5,1,2);
             glRectf(20, 50, 90, 90);
         glPopMatrix();
+        glTranslatef(0,0,20);
         letreroMenu("M - Quitar musica");
     glPopMatrix();
 
@@ -242,11 +248,12 @@ static void pantallaInicial(){
             glScalef(2.5,1,2);
             glRectf(20, 50, 90, 90);
         glPopMatrix();
+        glTranslatef(0,0,20);
         letreroMenu("N - Ver Niveles");
     glPopMatrix();
 }
 
-// Despliega panttalla de autores
+// Despliega pantalla de autores
 static void pantallaAutores(){
     // Titulo
     glPushMatrix();
@@ -300,12 +307,12 @@ static void pantallaAutores(){
     glPopMatrix();
 }
 
-// Despliega panttalla de instrucciones
+// Despliega pantalla de instrucciones
 static void pantallaInstrucciones(){
     // Titulo
     glPushMatrix();
         glColor3f(0,0,0);
-        glTranslatef(-180,220,-45);
+        glTranslatef(-180,220,-100);
         glRotatef(-30,1,1,0);
         glScalef(2.5,1,2);
         letrero("Instrucciones");
@@ -325,6 +332,156 @@ static void pantallaInstrucciones(){
             glEnd();
         }
     glPopMatrix();
+
+    // Texto
+  glPushMatrix();
+    glColor3f(0, 0, 0);
+    char lineaInstruccion[200]="";
+    float yRaster = largo*.17;
+    sprintf(lineaInstruccion, "%s", "El juego consiste de varios retos que debes superar para mantener la");
+    glRasterPos2f(-ancho * .5, yRaster);
+    for (GLint k = 0; lineaInstruccion[k]!='\0'; k++)
+    {
+      glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, lineaInstruccion[k]);
+    }
+    yRaster-=25;
+    sprintf(lineaInstruccion, "%s", "salud de tu avatar, al ir cumpliendo con los retos que te pone el");
+    glRasterPos2f(-ancho * .5, yRaster);
+    for (GLint k = 0; lineaInstruccion[k]!='\0'; k++)
+    {
+      glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, lineaInstruccion[k]);
+    }
+    yRaster-=25;
+    sprintf(lineaInstruccion, "%s", "mundo de verminara la velocidad del juego ira avanzando.");
+    glRasterPos2f(-ancho * .5, yRaster);
+    for (GLint k = 0; lineaInstruccion[k]!='\0'; k++)
+    {
+      glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, lineaInstruccion[k]);
+    }
+    yRaster-=25;
+    sprintf(lineaInstruccion, "%s", "Una vez cumpliendo cada reto iras subiendo de nivel que se sumara a");
+    glRasterPos2f(-ancho * .5, yRaster);
+    for (GLint k = 0; lineaInstruccion[k]!='\0'; k++)
+    {
+      glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, lineaInstruccion[k]);
+    }
+    yRaster-=25;
+    sprintf(lineaInstruccion, "%s", "tu puntaje final.");
+    glRasterPos2f(-ancho * .5, yRaster);
+    for (GLint k = 0; lineaInstruccion[k]!='\0'; k++)
+    {
+      glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, lineaInstruccion[k]);
+    }
+    yRaster-=25;
+    sprintf(lineaInstruccion, "%s", "Cada juego tendra las instrucciones a seguir en la parte baja de la");
+    glRasterPos2f(-ancho * .5, yRaster);
+    for (GLint k = 0; lineaInstruccion[k]!='\0'; k++)
+    {
+      glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, lineaInstruccion[k]);
+    }
+    yRaster-=25;
+    sprintf(lineaInstruccion, "%s", "pantalla, demuestra quien es el mejor dominando el mundo de verminara.");
+    glRasterPos2f(-ancho * .5, yRaster);
+    for (GLint k = 0; lineaInstruccion[k]!='\0'; k++)
+    {
+      glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, lineaInstruccion[k]);
+    }
+    yRaster-=25;
+    //
+  glPopMatrix();
+
+}
+
+// Despliega pantalla de historia
+static void pantallaHistoria(){
+  // Titulo
+  glPushMatrix();
+  glColor3f(0,0,0);
+  glTranslatef(-180,220,-100);
+  glRotatef(-30,1,1,0);
+  glScalef(2.5,1,2);
+  letrero("Historia");
+  glPopMatrix();
+
+  // Separador
+  glPushMatrix();
+  glColor3f(0.098,0.098,0.439);
+  glTranslatef(0,0,2);
+  glRotatef(1,0,0,1.5);
+  glLineWidth(1);
+  glTranslatef(0,0,1);
+  for(int i=0;i<3;i++){
+    glBegin(GL_LINES);
+    glVertex2f(-(ancho/2),((largo/4)-(1.5*i)));
+    glVertex2f((ancho/2),((largo/4 + 20)-(1.5*i)));
+    glEnd();
+  }
+  glPopMatrix();
+
+  // Texto
+  glPushMatrix();
+  glColor3f(0, 0, 0);
+  char lineaInstruccion[200]="";
+  float yRaster = largo*.17;
+  sprintf(lineaInstruccion, "%s", "Verminara es un mundo que cuenta con ciudadanos irresponsables y ");
+  glRasterPos2f(-ancho * .5, yRaster);
+  for (GLint k = 0; lineaInstruccion[k]!='\0'; k++)
+  {
+    glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, lineaInstruccion[k]);
+  }
+  yRaster-=25;
+  sprintf(lineaInstruccion, "%s", "necesita de la ayuda de un conocedor responsable para poder ");
+  glRasterPos2f(-ancho * .5, yRaster);
+  for (GLint k = 0; lineaInstruccion[k]!='\0'; k++)
+  {
+    glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, lineaInstruccion[k]);
+  }
+  yRaster-=25;
+  sprintf(lineaInstruccion, "%s", "rescatarlos de su fallas, ahi es donde entra el jugador.");
+  glRasterPos2f(-ancho * .5, yRaster);
+  for (GLint k = 0; lineaInstruccion[k]!='\0'; k++)
+  {
+    glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, lineaInstruccion[k]);
+  }
+  yRaster-=25;
+  sprintf(lineaInstruccion, "%s", "El jugador viene a ayudar con diversos problemas del dia a");
+  glRasterPos2f(-ancho * .5, yRaster);
+  for (GLint k = 0; lineaInstruccion[k]!='\0'; k++)
+  {
+    glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, lineaInstruccion[k]);
+  }
+  yRaster-=25;
+  sprintf(lineaInstruccion, "%s", "dia a los habitantes que pueden ser resueltos por simples");
+  glRasterPos2f(-ancho * .5, yRaster);
+  for (GLint k = 0; lineaInstruccion[k]!='\0'; k++)
+  {
+    glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, lineaInstruccion[k]);
+  }
+  yRaster-=25;
+  sprintf(lineaInstruccion, "%s", "acciones. Para esto el jugador debe de contar con su");
+  glRasterPos2f(-ancho * .5, yRaster);
+  for (GLint k = 0; lineaInstruccion[k]!='\0'; k++)
+  {
+    glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, lineaInstruccion[k]);
+  }
+  yRaster-=25;
+  sprintf(lineaInstruccion, "%s", "habilidad para rapidamente ayudar a todos los habitantes");
+  glRasterPos2f(-ancho * .5, yRaster);
+  for (GLint k = 0; lineaInstruccion[k]!='\0'; k++)
+  {
+    glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, lineaInstruccion[k]);
+  }
+  yRaster-=25;
+  sprintf(lineaInstruccion, "%s", "de Verminara.");
+  glRasterPos2f(-ancho * .5, yRaster);
+  for (GLint k = 0; lineaInstruccion[k]!='\0'; k++)
+  {
+    glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, lineaInstruccion[k]);
+  }
+  yRaster-=25;
+  //
+  glPopMatrix();
+
 }
 
 // Toma la ubicación del proyecto
@@ -361,6 +518,9 @@ static void myDisplay(void)
     else if(instrucciones){
         pantallaInstrucciones();                            // Despliega pantalla instrucciones
     }
+    else if(historia){
+        pantallaHistoria();
+    }
     else if(inicio){
         pantallaInicial();                                  // Despliega pantalla inicial
     }
@@ -379,7 +539,11 @@ void init(){
     glEnable(GL_NORMALIZE);
 
     // Objetos 3D
-    string ruta = fullPath+ "imagenes/beer.obj";
+    // Ana
+    string ruta = fullPath + "imagenes/beer.obj";
+    // Iker
+    // string ruta = "/Users/ikerarbululozano/Google Drive/Noveno Semestre/Graficas Computacionales/MundoDeVerminara3D/Mac/ProyectoFinalGraficas/ProyectoFinalGraficas/imagenes/beer.obj";
+
     model[0]= *glmReadOBJ(ruta.c_str());
     glmUnitize(&model[0]);
     glmVertexNormals(&model[0],90.0,GL_TRUE);
@@ -395,10 +559,16 @@ void myKeyboard(unsigned char theKey, int mouseX, int mouseY)
                 autores = !autores;
             }
             break;
-        case 'i':                                                   // Autores
+        case 'i':                                                   // Instrucciones
         case 'I':
-            if(inicio and !jugando and !pausado and !terminado and !autores){
+            if(inicio and !jugando and !pausado and !terminado and !autores and !historia){
                 instrucciones = !instrucciones;
+            }
+            break;
+        case 'h':                                                   // Historia
+        case 'H':
+            if(inicio and !jugando and !pausado and !terminado and !autores and !instrucciones){
+                historia = !historia;
             }
             break;
         case 27:                                                    // Quit
