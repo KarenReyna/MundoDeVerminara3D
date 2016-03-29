@@ -49,8 +49,9 @@ static void timer(int i){
     glutPostRedisplay();
 }
 
-static void estrellas(){
-    glmDraw(&model[0],GLM_COLOR|GLM_FLAT);
+static void objeto3D(){
+    glmDraw(&model[0], GLM_TEXTURE| GLM_COLOR | GLM_FLAT);
+
 }
 
 // Desplegar texto en tamaño pequeño
@@ -153,13 +154,13 @@ static void pantallaInicial(){
         }
     glPopMatrix();
 
-    /* Estrellas
+    // Objeto 3D
     glPushMatrix();
         glTranslatef((ancho/4),100,-45);
-        glRotatef(95,1,1,0);
-        glScalef(20,20,15);
-        estrellas();
-    glPopMatrix();*/
+        glScalef(40,40,15);
+        glRotatef(angulo,0,1,0);
+        objeto3D();
+    glPopMatrix();
 
     // Instrucciones
     glPushMatrix();
@@ -540,7 +541,8 @@ void init(){
 
     // Objetos 3D
     // Ana
-    string ruta = fullPath + "imagenes/beer.obj";
+    // // C:/Users/karen_000/Dropbox/6 Semestre/Gráficas/MundoDeVerminara3D/Windows/imagenes/beer/beer.obj
+    string ruta = fullPath + "imagenes/hamburger/hamburger.obj";
     // Iker
     // string ruta = "/Users/ikerarbululozano/Google Drive/Noveno Semestre/Graficas Computacionales/MundoDeVerminara3D/Mac/ProyectoFinalGraficas/ProyectoFinalGraficas/imagenes/beer.obj";
 
