@@ -106,33 +106,38 @@ void loadTexture(Image* image,int k)
 
 void initRendering()
 {
-  int i=0;
-  /*glEnable(GL_DEPTH_TEST);
-   glEnable(GL_LIGHTING);
-   glEnable(GL_LIGHT0);
-   glEnable(GL_NORMALIZE); ///Users/mariaroque/Imagenes*/
-  // glEnable(GL_COLOR_MATERIAL);
-  glGenTextures(6, texName); //Make room for our texture
+    int i=0;
+    /*glEnable(GL_DEPTH_TEST);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+    glEnable(GL_NORMALIZE); ///Users/mariaroque/Imagenes*/
+    // glEnable(GL_COLOR_MATERIAL);
+    glGenTextures(6, texName); //Make room for our texture
 
-  //Iker
-  Image* image = loadBMP("/Users/ikerarbululozano/Google Drive/Noveno Semestre/Graficas Computacionales/MundoDeVerminara3D/Mac/ProyectoFinalGraficas/ProyectoFinalGraficas/imagenes/MenuResized.bmp");
-  loadTexture(image,i++);
-  image = loadBMP("/Users/ikerarbululozano/Google Drive/Noveno Semestre/Graficas Computacionales/MundoDeVerminara3D/Mac/ProyectoFinalGraficas/ProyectoFinalGraficas/imagenes/AutoresResized.bmp");
-  loadTexture(image,i++);
-  image = loadBMP("/Users/ikerarbululozano/Google Drive/Noveno Semestre/Graficas Computacionales/MundoDeVerminara3D/Mac/ProyectoFinalGraficas/ProyectoFinalGraficas/imagenes/InstruccionesResized.bmp");
-  loadTexture(image,i++);
-  image = loadBMP("/Users/ikerarbululozano/Google Drive/Noveno Semestre/Graficas Computacionales/MundoDeVerminara3D/Mac/ProyectoFinalGraficas/ProyectoFinalGraficas/imagenes/HistoriaResized.bmp");
-  loadTexture(image,i++);
-  //Ana
-//  Image* image = loadBMP("C:/Users/karen_000/Dropbox/6 Semestre/Gr�ficas/MundoDeVerminara3D/Windows/imagenes/MenuResizaed.bmp");
-//  loadTexture(image,i++);
-//  image = loadBMP("C:/Users/karen_000/Dropbox/6 Semestre/Gr�ficas/MundoDeVerminara3D/Windows/imagenes/AutoresResized.bmp");
-//  loadTexture(image,i++);
-//  image = loadBMP("C:/Users/karen_000/Dropbox/6 Semestre/Gr�ficas/MundoDeVerminara3D/Windows/imagenes/InstruccionesResized.bmp");
-//  loadTexture(image,i++);
-//  image = loadBMP("C:/Users/karen_000/Dropbox/6 Semestre/Gr�ficas/MundoDeVerminara3D/Windows/imagenes/HistoriaResized.bmp");
-//  loadTexture(image,i++);
-  delete image;
+    //Iker
+    /*Image* image = loadBMP("/Users/ikerarbululozano/Google Drive/Noveno Semestre/Graficas Computacionales/MundoDeVerminara3D/Mac/ProyectoFinalGraficas/ProyectoFinalGraficas/imagenes/MenuResized.bmp");
+    loadTexture(image,i++);
+    image = loadBMP("/Users/ikerarbululozano/Google Drive/Noveno Semestre/Graficas Computacionales/MundoDeVerminara3D/Mac/ProyectoFinalGraficas/ProyectoFinalGraficas/imagenes/AutoresResized.bmp");
+    loadTexture(image,i++);
+    image = loadBMP("/Users/ikerarbululozano/Google Drive/Noveno Semestre/Graficas Computacionales/MundoDeVerminara3D/Mac/ProyectoFinalGraficas/ProyectoFinalGraficas/imagenes/InstruccionesResized.bmp");
+    loadTexture(image,i++);
+    image = loadBMP("/Users/ikerarbululozano/Google Drive/Noveno Semestre/Graficas Computacionales/MundoDeVerminara3D/Mac/ProyectoFinalGraficas/ProyectoFinalGraficas/imagenes/HistoriaResized.bmp");
+    loadTexture(image,i++);*/
+    // Esto ya debe funcionar para todos los casos
+    char  ruta[200];
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/MenuResized.bmp");
+    Image* image = loadBMP(ruta);
+    loadTexture(image,i++);
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/AutoresResized.bmp");
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/InstruccionesResized.bmp");
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/HistoriaResized.bmp");
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+    delete image;
 }
 
 
@@ -422,11 +427,11 @@ void init(){
   // // C:/Users/karen_000/Dropbox/6 Semestre/Gr�ficas/MundoDeVerminara3D/Windows/imagenes/beer/beer.obj
   //string ruta = fullPath + "imagenes/hamburger/hamburger.obj";
   // Iker
-  string ruta = "/Users/ikerarbululozano/Google Drive/Noveno Semestre/Graficas Computacionales/MundoDeVerminara3D/Mac/ProyectoFinalGraficas/ProyectoFinalGraficas/imagenes/hamburger/hamburger.obj";
-
+  //string ruta = "/Users/ikerarbululozano/Google Drive/Noveno Semestre/Graficas Computacionales/MundoDeVerminara3D/Mac/ProyectoFinalGraficas/ProyectoFinalGraficas/imagenes/hamburger/hamburger.obj";
+/*
   model[0]= *glmReadOBJ(ruta.c_str());
   glmUnitize(&model[0]);
-  glmVertexNormals(&model[0],90.0,GL_TRUE);
+  glmVertexNormals(&model[0],90.0,GL_TRUE);*/
 }
 
 void myKeyboard(unsigned char theKey, int mouseX, int mouseY)
