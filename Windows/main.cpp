@@ -21,8 +21,8 @@
 #include "glm.h"
 #include "imageloader.h"
 #include "imageBMP.h"
-#include <queue>
 #include <assert.h>
+#include <queue>
 
 using namespace std;
 
@@ -33,8 +33,16 @@ bool juegoInicio = false;
 bool ayuda = true;
 bool contar;
 
-bool inicio = true, pausado, comenzado, reiniciar, terminado, jugando, fallo = false;
+bool inicio = true, pausado, comenzado, reiniciar, terminado, jugando, fallo = false;;
 bool autores, instrucciones,historia;
+
+// Para objetos 3D
+static GLuint texName[36];                                    // Texturas
+GLMmodel model[6];
+string fullPath = __FILE__;
+GLfloat light_position[] = { 1.0, 1.0, 1.0, 0.0 };      //Puntual
+
+int angulo=-1;                                          // Animación de objetos
 
 /////////////////////////////////////////////////////////////////////
 ///////           Cubos de juego                          ///////////
@@ -49,15 +57,6 @@ queue<Cubo> cubos;
 int vueltas=0;
 int cantCubos=0;
 /////////////////////////////////////////////////////////////////////
-
-
-// Para objetos 3D
-static GLuint texName[36];                                    // Texturas
-GLMmodel model[6];
-string fullPath = __FILE__;
-GLfloat light_position[] = { 1.0, 1.0, 1.0, 0.0 };      //Puntual
-
-int angulo=-1;                                          // Animaciï¿½n de objetos
 
 void aceleraCubos(){
   fallo = false;
@@ -78,8 +77,6 @@ void aceleraCubos(){
   }
   cantCubos-=cantResta;
 }
-
-
 
 //Makes the image into a texture, and returns the id of the texture
 void loadTexture(Image* image,int k)
@@ -117,13 +114,13 @@ void initRendering()
     glEnable(GL_NORMALIZE); ///Users/mariaroque/Imagenes*/
     // glEnable(GL_COLOR_MATERIAL);
     glGenTextures(6, texName); //Make room for our texture
-    Image* image = loadBMP("C:/Users/karen_000/Dropbox/6 Semestre/Grï¿½ficas/MundoDeVerminara3D/Windows/imagenes/MenuResized.bmp");
+    Image* image = loadBMP("C:/Users/karen_000/Dropbox/6 Semestre/Gráficas/MundoDeVerminara3D/Windows/imagenes/MenuResizaed.bmp");
     loadTexture(image,i++);
-    image = loadBMP("C:/Users/karen_000/Dropbox/6 Semestre/Grï¿½ficas/MundoDeVerminara3D/Windows/imagenes/AutoresResized.bmp");
+    image = loadBMP("C:/Users/karen_000/Dropbox/6 Semestre/Gráficas/MundoDeVerminara3D/Windows/imagenes/AutoresResized.bmp");
     loadTexture(image,i++);
-    image = loadBMP("C:/Users/karen_000/Dropbox/6 Semestre/Grï¿½ficas/MundoDeVerminara3D/Windows/imagenes/InstruccionesResized.bmp");
+    image = loadBMP("C:/Users/karen_000/Dropbox/6 Semestre/Gráficas/MundoDeVerminara3D/Windows/imagenes/InstruccionesResized.bmp");
     loadTexture(image,i++);
-    image = loadBMP("C:/Users/karen_000/Dropbox/6 Semestre/Grï¿½ficas/MundoDeVerminara3D/Windows/imagenes/HistoriaResized.bmp");
+    image = loadBMP("C:/Users/karen_000/Dropbox/6 Semestre/Gráficas/MundoDeVerminara3D/Windows/imagenes/HistoriaResized.bmp");
     loadTexture(image,i++);
     delete image;
 }
@@ -159,73 +156,72 @@ static void timer(int i){
   glutPostRedisplay();
 }
 
-
 static void objeto3D(){
     glmDraw(&model[0], GLM_TEXTURE| GLM_COLOR | GLM_FLAT);
 }
 
-// Desplegar texto en tamaï¿½o pequeï¿½o
+// Desplegar texto en tamaño pequeño
 static void letreroLetraPequena(string texto){
-  int yRaster = 0;
-  int xRaster = 0;
+    int yRaster = 0;
+    int xRaster = 0;
 
-  glColor3f(0, 0, 0);
+    glColor3f(0, 0, 0);
 
-  for(int j = 0; j < texto.length(); j++){
-    char valor = texto.at(j);
-    glRasterPos2i(xRaster, yRaster);
-    glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_10, valor);
-    xRaster += 10;
-  }
+    for(int j = 0; j < texto.length(); j++){
+       char valor = texto.at(j);
+       glRasterPos2i(xRaster, yRaster);
+       glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_10, valor);
+       xRaster += 10;
+    }
 }
 
 // Desplegar texto en menu
 static void letreroMenu(string texto){
-  int yRaster = 70;
-  int xRaster = 70;
+    int yRaster = 70;
+    int xRaster = 70;
 
-  glColor3f(0, 0, 0);
+    glColor3f(0, 0, 0);
 
-  for(int j = 0; j < texto.length(); j++){
-    char valor = texto.at(j);
-    glRasterPos2i(xRaster, yRaster);
-    glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_10, valor);
-    xRaster += 7;
-  }
+    for(int j = 0; j < texto.length(); j++){
+       char valor = texto.at(j);
+       glRasterPos2i(xRaster, yRaster);
+       glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_10, valor);
+       xRaster += 7;
+    }
 }
 
 // Desplegar texto
 static void letrero(string texto){
 
-  int yRaster = 0;
-  int xRaster = 0;
+    int yRaster = 0;
+    int xRaster = 0;
 
-  for(int j = 0; j < texto.length(); j++){
-    char valor = texto.at(j);
-    glRasterPos2i(xRaster, yRaster);
-    glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, valor);
-    xRaster += 9;
-  }
+    for(int j = 0; j < texto.length(); j++){
+       char valor = texto.at(j);
+       glRasterPos2i(xRaster, yRaster);
+       glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, valor);
+       xRaster += 9;
+    }
 }
 
 // Dibuja la base que rodea a los autores
 static void dibujaBaseAutores(){
-  glTranslatef(30,0,0);
-  glColor3f(0.098,0.098,0.439);
-  glPushMatrix();
-  glTranslatef(0,-20,-1);
-  glScalef(40,30,10);
-  glutSolidDodecahedron();
-  glPopMatrix();
-  glColor3f(0-117,0.5647,1);
-  glPushMatrix();
-  glScalef(40,30,10);
-  glutSolidDodecahedron();
-  glPopMatrix();
-  glTranslatef(-50,0,0);
+    glTranslatef(30,0,0);
+    glColor3f(0.098,0.098,0.439);
+    glPushMatrix();
+        glTranslatef(0,-20,-1);
+        glScalef(40,30,10);
+        glutSolidDodecahedron();
+    glPopMatrix();
+    glColor3f(0-117,0.5647,1);
+    glPushMatrix();
+        glScalef(40,30,10);
+        glutSolidDodecahedron();
+    glPopMatrix();
+    glTranslatef(-50,0,0);
 }
 
-// Funciï¿½n para cargar la imagen textura del fondo
+// Función para cargar la imagen textura del fondo
 static void cargarImagenFondo(int indice){
     // Background Image Texture
     glPushMatrix();
@@ -252,7 +248,7 @@ static void pantallaInicial(){
     // Cargar la imagen textura del fondo
     cargarImagenFondo(0);
 
-    // Botï¿½n Autores
+    // Botón Autores
     glPushMatrix();
         glTranslatef(((ancho/2)-60),(largo/4)+80,-45);
         glRotatef(angulo,0,1,0);
@@ -277,7 +273,7 @@ static void pantallaAutores(){
     // Cargar la imagen textura del fondo
     cargarImagenFondo(1);
 
-    // Botï¿½n Quitar autores
+    // Botón Quitar autores
     /*glPushMatrix();
         glTranslatef(0,-150,-45);
         glRotatef(angulo,0,1,0);
@@ -330,11 +326,11 @@ static void pantallaJugando(){
   }
 }
 
-// Toma la ubicaciï¿½n del proyecto
+// Toma la ubicación del proyecto
 void getParentPath(){
-  for (int i = fullPath.length()-1; i>=0 && fullPath[i] != '\\'; i--) {
-    fullPath.erase(i,1);
-  }
+    for (int i = fullPath.length()-1; i>=0 && fullPath[i] != '\\'; i--) {
+        fullPath.erase(i,1);
+    }
 }
 
 // Reshape
@@ -350,29 +346,29 @@ void reshape(int ancho, int largo)
 // Display
 static void myDisplay(void)
 {
-  glClearColor(1,1,1,0);                                  // Color del background
+    glClearColor(1,1,1,0);                                  // Color del background
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);     // Activa profundidad
     glLightfv(GL_LIGHT0, GL_POSITION, light_position);
     glEnable(GL_TEXTURE_2D);
 
-  if(jugando){
-    pantallaJugando();
-  }
-  else if(autores){
-    pantallaAutores();                                  // Despliega pantalla autores
-  }
-  else if(instrucciones){
-    pantallaInstrucciones();                            // Despliega pantalla instrucciones
-  }
-  else if(historia){
-    pantallaHistoria();
-  }
-  else if(inicio){
-    pantallaInicial();                                  // Despliega pantalla inicial
-  }
+    if(jugando){
+        pantallaJugando();
+    }
+    else if(autores){
+        pantallaAutores();                                  // Despliega pantalla autores
+    }
+    else if(instrucciones){
+        pantallaInstrucciones();                            // Despliega pantalla instrucciones
+    }
+    else if(historia){
+        pantallaHistoria();
+    }
+    else if(inicio){
+        pantallaInicial();                                  // Despliega pantalla inicial
+    }
 
-  glutSwapBuffers();
+    glutSwapBuffers();
 }
 
 void init(){
@@ -387,7 +383,7 @@ void init(){
 
     // Objetos 3D
     // Ana
-    // // C:/Users/karen_000/Dropbox/6 Semestre/Grï¿½ficas/MundoDeVerminara3D/Windows/imagenes/beer/beer.obj
+    // // C:/Users/karen_000/Dropbox/6 Semestre/Gráficas/MundoDeVerminara3D/Windows/imagenes/beer/beer.obj
     string ruta = fullPath + "imagenes/hamburger/hamburger.obj";
     // Iker
     // string ruta = "/Users/ikerarbululozano/Google Drive/Noveno Semestre/Graficas Computacionales/MundoDeVerminara3D/Mac/ProyectoFinalGraficas/ProyectoFinalGraficas/imagenes/beer.obj";
@@ -399,59 +395,61 @@ void init(){
 
 void myKeyboard(unsigned char theKey, int mouseX, int mouseY)
 {
-  switch (theKey)
-  {
-    case 'a':                                                   // Autores
-    case 'A':
-      if(inicio and !jugando and !pausado and !terminado and !instrucciones){
-        autores = !autores;
-      }
-      break;
-    case 'i':                                                   // Instrucciones
-    case 'I':
-      if(inicio and !jugando and !pausado and !terminado and !autores and !historia){
-        instrucciones = !instrucciones;
-      }
-      break;
-    case 'h':                                                   // Historia
-    case 'H':
-      if(inicio and !jugando and !pausado and !terminado and !autores and !instrucciones){
-        historia = !historia;
-      }
-      break;
-    case 'j':
-    case 'J':
-      if(inicio and !historia and !pausado and !terminado and !autores and !instrucciones){
-        jugando = !jugando;
-      }
-      break;
-    case 27:                                                    // Quit
-      exit(-1);
-      break;
-    default:
-      break;		                                            // Do nothing
-  }
-  glutPostRedisplay();
+    switch (theKey)
+    {
+        case 'a':                                                   // Autores
+        case 'A':
+            if(inicio and !jugando and !pausado and !terminado and !instrucciones){
+                autores = !autores;
+            }
+            break;
+        case 'i':                                                   // Instrucciones
+        case 'I':
+            if(inicio and !jugando and !pausado and !terminado and !autores and !historia){
+                instrucciones = !instrucciones;
+            }
+            break;
+        case 'h':                                                   // Historia
+        case 'H':
+            if(inicio and !jugando and !pausado and !terminado and !autores and !instrucciones){
+                historia = !historia;
+            }
+            break;
+        case 'j':
+        case 'J':
+            if(inicio and !historia and !pausado and !terminado and !autores and !instrucciones){
+                jugando = !jugando;
+            }
+            break;
+        case 27:                                                    // Quit
+            exit(-1);
+            break;
+        default:
+            break;		                                            // Do nothing
+    }
+    glutPostRedisplay();
 }
 
 
 void mouse(int button,int state,int x,int y){
-  y = largo - y;                                   // cambiar las coordenadas a coordenadas de openGL
+    y = largo - y;                                   // cambiar las coordenadas a coordenadas de openGL
 }
 
 int main(int argc, char ** argv)
 {
-  glutInit(&argc, argv);
-  glutInitDisplayMode(GLUT_DOUBLE| GLUT_RGB | GLUT_DEPTH);
-  glutInitWindowSize(ancho, largo);
-  glutInitWindowPosition(0, 0);                           // Create window
-  glutCreateWindow("El Mundo de Verminara");
-  init();
-  glutDisplayFunc(myDisplay);
-  glutKeyboardFunc(myKeyboard);
-  glutReshapeFunc(reshape);
-  glutMouseFunc(mouse);
-  glutTimerFunc(100,timer,1);
-  glutMainLoop();
-  return 0;
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_DOUBLE| GLUT_RGB | GLUT_DEPTH);
+    glutInitWindowSize(ancho, largo);
+    glutInitWindowPosition(0, 0);                           // Create window
+    glutCreateWindow("El Mundo de Verminara");
+    getParentPath();
+    init();
+    initRendering();
+    glutDisplayFunc(myDisplay);
+    glutKeyboardFunc(myKeyboard);
+    glutReshapeFunc(reshape);
+    glutMouseFunc(mouse);
+    glutTimerFunc(100,timer,1);
+    glutMainLoop();
+    return 0;
 }
