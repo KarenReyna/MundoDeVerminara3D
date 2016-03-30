@@ -137,6 +137,9 @@ void initRendering()
     sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/HistoriaResized.bmp");
     image = loadBMP(ruta);
     loadTexture(image,i++);
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/ChestOpen.bmp");
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
     delete image;
 }
 
@@ -334,13 +337,32 @@ static void pantallaJugando(){
   }
   else{
     glPushMatrix();
-    glTranslatef(0, -largo/2.0+anchoCubo/2.0+10, 0);
-    glutWireCube(anchoCubo);
+    glBindTexture(GL_TEXTURE_2D, texName[4]);
+        glTranslatef(0, -largo/2.0+anchoCubo/2.0+10, 0);
+        glutWireCube(anchoCubo);
+    glPopMatrix();
+
+    // Puse un QUADS en lugar, pero no se si esto sea lo mejor por lo del cubo que quieres manejar
+    glPushMatrix();
+        glTranslatef(-50, -largo/2.0+anchoCubo/2.0-40, 0);
+        glBindTexture(GL_TEXTURE_2D, texName[4]);
+        glBegin(GL_QUADS);
+            glColor4ub(255, 255, 255,255);       // Color
+            glTexCoord2f(1.0f, 0.0f);
+            glVertex2f(100, 0);                 // v0
+            glTexCoord2f(1.0f, 1.0f);
+            glVertex2f(100, 100);               // v1
+            glTexCoord2f(0.0f, 1.0f);
+            glVertex2f(0, 100);                 // v2
+            glTexCoord2f(0.0f, 0.0f);
+            glVertex2f(0, 0);                   // v3
+        glEnd();
     glPopMatrix();
   }
 
   Cubo aux;
   for (int i = 0; i<cantCubos; i++) {
+    glColor4ub(0, 0, 0,0);       // Color
     aux = cubos.front();
     glRasterPos2f(aux.x, (-largo/2.0)+anchoCubo/2.0+10);
     glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, aux.tecla);
