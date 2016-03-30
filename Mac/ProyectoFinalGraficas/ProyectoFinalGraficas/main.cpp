@@ -21,8 +21,8 @@
 #include "glm.h"
 #include "imageloader.h"
 #include "imageBMP.h"
-#include <queue>
 #include <assert.h>
+#include <queue>
 
 using namespace std;
 
@@ -33,8 +33,16 @@ bool juegoInicio = false;
 bool ayuda = true;
 bool contar;
 
-bool inicio = true, pausado, comenzado, reiniciar, terminado, jugando, fallo = false;
+bool inicio = true, pausado, comenzado, reiniciar, terminado, jugando, fallo = false,acierto = false;
 bool autores, instrucciones,historia;
+
+// Para objetos 3D
+static GLuint texName[36];                                    // Texturas
+GLMmodel model[6];
+string fullPath = __FILE__;
+GLfloat light_position[] = { 1.0, 1.0, 1.0, 0.0 };      //Puntual
+
+int angulo=-1;                                          // Animaci�n de objetos
 
 /////////////////////////////////////////////////////////////////////
 ///////           Cubos de juego                          ///////////
@@ -50,17 +58,7 @@ int vueltas=0;
 int cantCubos=0;
 /////////////////////////////////////////////////////////////////////
 
-
-// Para objetos 3D
-static GLuint texName[36];                                    // Texturas
-GLMmodel model[6];
-string fullPath = __FILE__;
-GLfloat light_position[] = { 1.0, 1.0, 1.0, 0.0 };      //Puntual
-
-int angulo=-1;                                          // Animaci�n de objetos
-
 void aceleraCubos(){
-  fallo = false;
   Cubo aux;
   int cantResta=0;
   for (int i = 0; i<cantCubos; i++) {
@@ -78,8 +76,6 @@ void aceleraCubos(){
   }
   cantCubos-=cantResta;
 }
-
-
 
 //Makes the image into a texture, and returns the id of the texture
 void loadTexture(Image* image,int k)
@@ -117,6 +113,8 @@ void initRendering()
    glEnable(GL_NORMALIZE); ///Users/mariaroque/Imagenes*/
   // glEnable(GL_COLOR_MATERIAL);
   glGenTextures(6, texName); //Make room for our texture
+  
+  //Iker
   Image* image = loadBMP("/Users/ikerarbululozano/Google Drive/Noveno Semestre/Graficas Computacionales/MundoDeVerminara3D/Mac/ProyectoFinalGraficas/ProyectoFinalGraficas/imagenes/MenuResized.bmp");
   loadTexture(image,i++);
   image = loadBMP("/Users/ikerarbululozano/Google Drive/Noveno Semestre/Graficas Computacionales/MundoDeVerminara3D/Mac/ProyectoFinalGraficas/ProyectoFinalGraficas/imagenes/AutoresResized.bmp");
@@ -125,6 +123,15 @@ void initRendering()
   loadTexture(image,i++);
   image = loadBMP("/Users/ikerarbululozano/Google Drive/Noveno Semestre/Graficas Computacionales/MundoDeVerminara3D/Mac/ProyectoFinalGraficas/ProyectoFinalGraficas/imagenes/HistoriaResized.bmp");
   loadTexture(image,i++);
+  //Ana
+//  Image* image = loadBMP("C:/Users/karen_000/Dropbox/6 Semestre/Gr�ficas/MundoDeVerminara3D/Windows/imagenes/MenuResizaed.bmp");
+//  loadTexture(image,i++);
+//  image = loadBMP("C:/Users/karen_000/Dropbox/6 Semestre/Gr�ficas/MundoDeVerminara3D/Windows/imagenes/AutoresResized.bmp");
+//  loadTexture(image,i++);
+//  image = loadBMP("C:/Users/karen_000/Dropbox/6 Semestre/Gr�ficas/MundoDeVerminara3D/Windows/imagenes/InstruccionesResized.bmp");
+//  loadTexture(image,i++);
+//  image = loadBMP("C:/Users/karen_000/Dropbox/6 Semestre/Gr�ficas/MundoDeVerminara3D/Windows/imagenes/HistoriaResized.bmp");
+//  loadTexture(image,i++);
   delete image;
 }
 
@@ -135,14 +142,19 @@ static void timer(int i){
     if (i ==2) {
       Cubo aux;
       aux.x = ancho;
-      aux.tecla = rand()%26 + 97;
+      do{
+        aux.tecla = rand()%26 + 97;
+      }while (aux.tecla == 'j');
       cubos.push(aux);
       cantCubos++;
       vueltas = 0;
       glutTimerFunc(40, timer, 1);
     }
     else if(i==1){
-      if (vueltas*velocidadCubo >= anchoCubo*1.4) {
+      if (cantCubos == 0) {
+        glutTimerFunc(20,timer, 2);
+      }
+      else if (vueltas*velocidadCubo >= anchoCubo*2.4) {
         glutTimerFunc(20, timer, 2);
       }
       else{
@@ -158,7 +170,6 @@ static void timer(int i){
   }
   glutPostRedisplay();
 }
-
 
 static void objeto3D(){
   glmDraw(&model[0], GLM_TEXTURE| GLM_COLOR | GLM_FLAT);
@@ -305,13 +316,20 @@ static void pantallaJugando(){
   if (fallo) {
     glColor3b(255, 0, 0);
     glPushMatrix();
-    glTranslatef(-anchoCubo/2.0+anchoCubo/2.0, -largo/2.0+anchoCubo/2.0+10, 0);
+    glTranslatef(0, -largo/2.0+anchoCubo/2.0+10, 0);
     glutSolidCube(anchoCubo);
+    glPopMatrix();
+  }
+  else if (acierto){
+    glColor3b(0, 255, 0);
+    glPushMatrix();
+    glTranslatef(0, -largo/2.0+anchoCubo/2.0+10, 0);
+    glutSolidSphere(anchoCubo/2.0, 20, 20);
     glPopMatrix();
   }
   else{
     glPushMatrix();
-    glTranslatef(-anchoCubo/2.0+anchoCubo/2.0, -largo/2.0+anchoCubo/2.0+10, 0);
+    glTranslatef(0, -largo/2.0+anchoCubo/2.0+10, 0);
     glutWireCube(anchoCubo);
     glPopMatrix();
   }
@@ -327,6 +345,20 @@ static void pantallaJugando(){
     glPopMatrix();
     cubos.pop();
     cubos.push(aux);
+  }
+  acierto = false;
+  fallo = false;
+}
+
+void validarPresionado(char theKey){
+  if (!cubos.empty()) {
+    if (cubos.front().x-(anchoCubo/2.0) < anchoCubo/2.0) {
+      if (cubos.front().tecla == theKey) {
+        acierto = true;
+        cubos.pop();
+        cantCubos--;
+      }
+    }
   }
 }
 
@@ -399,6 +431,9 @@ void init(){
 
 void myKeyboard(unsigned char theKey, int mouseX, int mouseY)
 {
+  if (jugando) {
+    validarPresionado(theKey);
+  }
   switch (theKey)
   {
     case 'a':                                                   // Autores
@@ -446,7 +481,9 @@ int main(int argc, char ** argv)
   glutInitWindowSize(ancho, largo);
   glutInitWindowPosition(0, 0);                           // Create window
   glutCreateWindow("El Mundo de Verminara");
+  getParentPath();
   init();
+  initRendering();
   glutDisplayFunc(myDisplay);
   glutKeyboardFunc(myKeyboard);
   glutReshapeFunc(reshape);
