@@ -1,7 +1,18 @@
-#include <assert.h>
-#include <fstream>
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#else
+#include <windows.h>
+#include <GL/glut.h>
+#endif
 
-#include "imageloader.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <string>
+#include <fstream>
+#include <sstream>
+#include <iostream>
+#include <math.h>
+#include <assert.h>
 
 using namespace std;
 
@@ -17,7 +28,7 @@ Image::~Image()
 
 namespace
 {
-//Converts a four-character array to an integer, using little-endian form
+    //Converts a four-character array to an integer, using little-endian form
     int toInt(const char* bytes)
     {
         return (int)(((unsigned char)bytes[3] << 24) |
@@ -26,14 +37,14 @@ namespace
                      (unsigned char)bytes[0]);
     }
 
-//Converts a two-character array to a short, using little-endian form
+    //Converts a two-character array to a short, using little-endian form
     short toShort(const char* bytes)
     {
         return (short)(((unsigned char)bytes[1] << 8) |
                        (unsigned char)bytes[0]);
     }
 
-//Reads the next four bytes as an integer, using little-endian form
+    //Reads the next four bytes as an integer, using little-endian form
     int readInt(ifstream &input)
     {
         char buffer[4];
@@ -41,7 +52,7 @@ namespace
         return toInt(buffer);
     }
 
-//Reads the next two bytes as a short, using little-endian form
+    //Reads the next two bytes as a short, using little-endian form
     short readShort(ifstream &input)
     {
         char buffer[2];
@@ -49,7 +60,7 @@ namespace
         return toShort(buffer);
     }
 
-//Just like auto_ptr, but for arrays
+    //Just like auto_ptr, but for arrays
     template<class T>
     class auto_array
     {
@@ -58,7 +69,7 @@ namespace
         mutable bool isReleased;
     public:
         explicit auto_array(T* array_ = NULL) :
-                array(array_), isReleased(false)
+        array(array_), isReleased(false)
         {
         }
 
@@ -147,35 +158,35 @@ Image* loadBMP(const char* filename)
     int height;
     switch (headerSize)
     {
-    case 40:
-        //V3
-        width = readInt(input);
-        height = readInt(input);
-        input.ignore(2);
-        assert(readShort(input) == 24 || !"Image is not 24 bits per pixel");
-        assert(readShort(input) == 0 || !"Image is compressed");
-        break;
-    case 12:
-        //OS/2 V1
-        width = readShort(input);
-        height = readShort(input);
-        input.ignore(2);
-        assert(readShort(input) == 24 || !"Image is not 24 bits per pixel");
-        break;
-    case 64:
-        //OS/2 V2
-        assert(!"Can't load OS/2 V2 bitmaps");
-        break;
-    case 108:
-        //Windows V4
-        assert(!"Can't load Windows V4 bitmaps");
-        break;
-    case 124:
-        //Windows V5
-        assert(!"Can't load Windows V5 bitmaps");
-        break;
-    default:
-        assert(!"Unknown bitmap format");
+        case 40:
+            //V3
+            width = readInt(input);
+            height = readInt(input);
+            input.ignore(2);
+            assert(readShort(input) == 24 || !"Image is not 24 bits per pixel");
+            assert(readShort(input) == 0 || !"Image is compressed");
+            break;
+        case 12:
+            //OS/2 V1
+            width = readShort(input);
+            height = readShort(input);
+            input.ignore(2);
+            assert(readShort(input) == 24 || !"Image is not 24 bits per pixel");
+            break;
+        case 64:
+            //OS/2 V2
+            assert(!"Can't load OS/2 V2 bitmaps");
+            break;
+        case 108:
+            //Windows V4
+            assert(!"Can't load Windows V4 bitmaps");
+            break;
+        case 124:
+            //Windows V5
+            assert(!"Can't load Windows V5 bitmaps");
+            break;
+        default:
+            assert(!"Unknown bitmap format");
     }
 
     //Read the data
@@ -194,7 +205,7 @@ Image* loadBMP(const char* filename)
             for (int c = 0; c < 3; c++)
             {
                 pixels2[3 * (width * y + x) + c] =
-                    pixels[bytesPerRow * y + 3 * x + (2 - c)];
+                pixels[bytesPerRow * y + 3 * x + (2 - c)];
             }
         }
     }

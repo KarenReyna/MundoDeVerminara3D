@@ -50,8 +50,8 @@
 		13B0CB6C1C97C3B2008202C8 /* glmint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glmint.h; sourceTree = "<group>"; };
 		13B0CB6D1C97C3B2008202C8 /* imageBMP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imageBMP.h; sourceTree = "<group>"; };
 		13B0CB6E1C97C3B2008202C8 /* imageloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imageloader.h; sourceTree = "<group>"; };
-		13B0CB6F1C97C3B2008202C8 /* imagenes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = imagenes; sourceTree = "<group>"; };
 		13B0CB701C97C3B2008202C8 /* obj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = obj; sourceTree = "<group>"; };
+		13F49AEC1CABAA1900FF04EC /* imagenes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = imagenes; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,7 +101,7 @@
 				13B0CB6C1C97C3B2008202C8 /* glmint.h */,
 				13B0CB6D1C97C3B2008202C8 /* imageBMP.h */,
 				13B0CB6E1C97C3B2008202C8 /* imageloader.h */,
-				13B0CB6F1C97C3B2008202C8 /* imagenes */,
+				13F49AEC1CABAA1900FF04EC /* imagenes */,
 				13B0CB701C97C3B2008202C8 /* obj */,
 				13B0CB5B1C97C3B2008202C8 /* main.cpp */,
 			);
