@@ -125,19 +125,22 @@ void initRendering()
     loadTexture(image,i++);*/
     // Esto ya debe funcionar para todos los casos
     char  ruta[200];
-    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/MenuResized.bmp");
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/MenuResized.bmp");                    // 0
     Image* image = loadBMP(ruta);
     loadTexture(image,i++);
-    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/AutoresResized.bmp");
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/AutoresResized.bmp");                 // 1
     image = loadBMP(ruta);
     loadTexture(image,i++);
-    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/InstruccionesResized.bmp");
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/InstruccionesResized.bmp");           // 2
     image = loadBMP(ruta);
     loadTexture(image,i++);
-    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/HistoriaResized.bmp");
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/HistoriaResized.bmp");                // 3
     image = loadBMP(ruta);
     loadTexture(image,i++);
-    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/ChestOpen.bmp");
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/ChestOpen.bmp");                      // 4
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/Juego1Resized.bmp");                  // 5
     image = loadBMP(ruta);
     loadTexture(image,i++);
     delete image;
@@ -320,31 +323,34 @@ static void pantallaHistoria(){
 }
 
 static void pantallaJugando(){
+  // Cargar la imagen textura del fondo
+  cargarImagenFondo(5);
+
   glColor3f(0, 0, 0);
   if (fallo) {
     glColor3b(255, 0, 0);
     glPushMatrix();
-    glTranslatef(0, -largo/2.0+anchoCubo/2.0+10, 0);
+    glTranslatef(0, -largo/2.0+anchoCubo/2.0+20, -45);
     glutSolidCube(anchoCubo);
     glPopMatrix();
   }
   else if (acierto){
     glColor3b(0, 255, 0);
     glPushMatrix();
-    glTranslatef(0, -largo/2.0+anchoCubo/2.0+10, 0);
+    glTranslatef(0, -largo/2.0+anchoCubo/2.0+20, -45);
     glutSolidSphere(anchoCubo/2.0, 20, 20);
     glPopMatrix();
   }
   else{
     glPushMatrix();
     glBindTexture(GL_TEXTURE_2D, texName[4]);
-        glTranslatef(0, -largo/2.0+anchoCubo/2.0+10, 0);
+        glTranslatef(0, -largo/2.0+anchoCubo/2.0+20, -45);
         glutWireCube(anchoCubo);
     glPopMatrix();
 
     // Puse un QUADS en lugar, pero no se si esto sea lo mejor por lo del cubo que quieres manejar
     glPushMatrix();
-        glTranslatef(-50, -largo/2.0+anchoCubo/2.0-40, 0);
+        glTranslatef(-50, -largo/2.0+anchoCubo/2.0-30, 0);
         glBindTexture(GL_TEXTURE_2D, texName[4]);
         glBegin(GL_QUADS);
             glColor4ub(255, 255, 255,255);       // Color
@@ -364,10 +370,10 @@ static void pantallaJugando(){
   for (int i = 0; i<cantCubos; i++) {
     glColor4ub(0, 0, 0,0);       // Color
     aux = cubos.front();
-    glRasterPos2f(aux.x, (-largo/2.0)+anchoCubo/2.0+10);
+    glRasterPos2f(aux.x, (-largo/2.0)+anchoCubo/2.0+20);
     glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, aux.tecla);
     glPushMatrix();
-    glTranslatef(aux.x, (-largo/2.0)+anchoCubo/2.0+10, 0);
+    glTranslatef(aux.x, (-largo/2.0)+anchoCubo/2.0+20, -45);
     glutWireCube(anchoCubo);
     glPopMatrix();
     cubos.pop();
