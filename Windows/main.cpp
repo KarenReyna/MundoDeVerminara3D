@@ -34,11 +34,14 @@ bool ayuda = true;
 bool contar;
 
 bool inicio = true, pausado, comenzado, reiniciar, terminado, jugando;
+bool autores, instrucciones,historia;
+
 // Variables para juego 1
 bool juego1 = false, fallo = false, acierto = false;
+
 // Variables para juego 2
 bool juego2 = false;
-bool autores, instrucciones,historia;
+int contJuego2 = 0, auxJuego2 = 0;
 
 // Para objetos 3D
 static GLuint texName[36];                                    // Texturas
@@ -187,13 +190,52 @@ static void timer(int i){
   }
   else{
     angulo += 10;
+
+    // Variables para mover los objetos en el juego 2
+    if(juego2 and auxJuego2 == 0){
+        contJuego2 += 5;
+        if(contJuego2 > 420)
+            auxJuego2 = 1;
+    }
+    else if(juego2 and auxJuego2 == 1){
+        contJuego2 -= 5;
+        if(contJuego2 < 0)
+            auxJuego2 = 0;
+    }
+
     glutTimerFunc(80, timer, 1);
   }
   glutPostRedisplay();
 }
 
-static void objeto3D(){
-  glmDraw(&model[0], GLM_TEXTURE| GLM_COLOR | GLM_FLAT);
+// Objeto 3D
+static void manzana(){
+    glmDraw(&model[0], GLM_COLOR|GLM_FLAT);
+}
+
+// Objeto 3D
+static void pesa(){
+    glmDraw(&model[1], GLM_COLOR|GLM_FLAT);
+}
+
+// Objeto 3D
+static void jabon(){
+    glmDraw(&model[2], GLM_COLOR|GLM_FLAT);
+}
+
+// Objeto 3D
+static void globos(){
+    glmDraw(&model[3], GLM_COLOR|GLM_FLAT);
+}
+
+// Objeto 3D
+static void cigarro(){
+    glmDraw(&model[4], GLM_COLOR|GLM_FLAT);
+}
+
+// Objeto 3D
+static void cama(){
+    glmDraw(&model[5], GLM_COLOR|GLM_FLAT);
 }
 
 // Desplegar texto en tama�o peque�o
@@ -403,6 +445,86 @@ static void pantallaJuego1(){
 static void pantallaJuego2(){
     // Cargar la imagen textura del fondo
     cargarImagenFondo(6);
+
+    int movY = -145;
+
+    // Mueve el objeto: manzana
+    glPushMatrix();
+        glTranslatef(-210, movY + contJuego2, -25);
+        glRotatef(angulo, 1, 1, 1);
+        glScalef(20,20,20);
+        manzana();
+    glPopMatrix();
+    // Despliega el numero del objeto: manzana
+    glPushMatrix();
+        glTranslatef(-220, movY + contJuego2 - 40, 0);
+        letrero("1");
+    glPopMatrix();
+
+    // Mueve el objeto: pesa
+    glPushMatrix();
+        glTranslatef(-126, movY + contJuego2, -25);
+        glRotatef(angulo, 1, 1, 1);
+        glScalef(20,20,20);
+        pesa();
+    glPopMatrix();
+    // Despliega el numero del objeto: pesa
+    glPushMatrix();
+        glTranslatef(-136, movY + contJuego2 - 40, 0);
+        letrero("2");
+    glPopMatrix();
+
+    // Mueve el objeto: jabon
+    glPushMatrix();
+        glTranslatef(-42, movY + contJuego2, -25);
+        glRotatef(angulo, 1, 1, 1);
+        glScalef(20,20,20);
+        jabon();
+    glPopMatrix();
+    // Despliega el numero del objeto: jabon
+    glPushMatrix();
+        glTranslatef(-52, movY + contJuego2 - 40, 0);
+        letrero("3");
+    glPopMatrix();
+
+    // Mueve el objeto: globos
+    glPushMatrix();
+        glTranslatef(42, movY + contJuego2, -25);
+        glRotatef(angulo, 1, 1, 1);
+        glScalef(20,20,20);
+        globos();
+    glPopMatrix();
+    // Despliega el numero del objeto: globos
+    glPushMatrix();
+        glTranslatef(32, movY + contJuego2 - 40, 0);
+        letrero("4");
+    glPopMatrix();
+
+    // Mueve el objeto: cigarro
+    glPushMatrix();
+        glTranslatef(126, movY + contJuego2, -25);
+        glRotatef(angulo, 1, 1, 1);
+        glScalef(20,20,20);
+        cigarro();
+    glPopMatrix();
+    // Despliega el numero del objeto: cigarro
+    glPushMatrix();
+        glTranslatef(116, movY + contJuego2 - 40, 0);
+        letrero("5");
+    glPopMatrix();
+
+    // Mueve el objeto: cama
+    glPushMatrix();
+        glTranslatef(210, movY + contJuego2, -25);
+        glRotatef(angulo, 1, 1, 1);
+        glScalef(20,20,20);
+        cama();
+    glPopMatrix();
+    // Despliega el numero del objeto: cama
+    glPushMatrix();
+        glTranslatef(200, movY + contJuego2 - 40, 0);
+        letrero("6");
+    glPopMatrix();
 }
 
 void validarPresionado(char theKey){
@@ -469,14 +591,49 @@ static void myDisplay(void)
 }
 
 void init(){
-  glShadeModel(GL_SMOOTH);
-  glEnable(GL_DEPTH_TEST);
-  glEnable(GL_TEXTURE_2D);
+    glShadeModel(GL_SMOOTH);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_TEXTURE_2D);
 
-  // Inicializar Imagenes
-  int i = 0;
+    // Inicializar Imagenes
+    int i = 0;
 
-  glEnable(GL_NORMALIZE);
+    glEnable(GL_NORMALIZE);
+    // Modelo para sección: comer saludablemente
+    string ruta = fullPath+ "imagenes/apple.obj";
+    model[0]= *glmReadOBJ(ruta.c_str());
+    glmUnitize(&model[0]);
+    glmVertexNormals(&model[0],90.0,GL_TRUE);
+
+    // Modelo para sección: hacer ejercicio
+    ruta = fullPath+ "imagenes/weight.obj";
+    model[1]= *glmReadOBJ(ruta.c_str());
+    glmUnitize(&model[1]);
+    glmVertexNormals(&model[0],90.0,GL_TRUE);
+
+    // Modelo para sección: higiene
+    ruta = fullPath+ "imagenes/soap.obj";
+    model[2]= *glmReadOBJ(ruta.c_str());
+    glmUnitize(&model[2]);
+    glmVertexNormals(&model[0],90.0,GL_TRUE);
+
+    // Modelo para sección: actividad social
+    ruta = fullPath+ "imagenes/party.obj";
+    model[3]= *glmReadOBJ(ruta.c_str());
+    glmUnitize(&model[3]);
+    glmVertexNormals(&model[0],90.0,GL_TRUE);
+
+    // Modelo para sección: hábitos tóxicos
+    ruta = fullPath+ "imagenes/cig.obj";
+    model[4]= *glmReadOBJ(ruta.c_str());
+    glmUnitize(&model[4]);
+    glmVertexNormals(&model[0],90.0,GL_TRUE);
+
+    // Modelo para sección: dormir
+    ruta = fullPath+ "imagenes/bed.obj";
+    model[5]= *glmReadOBJ(ruta.c_str());
+    glmUnitize(&model[5]);
+    glmVertexNormals(&model[0],90.0,GL_TRUE);
 
   // Objetos 3D
   // Ana
