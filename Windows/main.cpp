@@ -33,7 +33,11 @@ bool juegoInicio = false;
 bool ayuda = true;
 bool contar;
 
-bool inicio = true, pausado, comenzado, reiniciar, terminado, jugando, fallo = false,acierto = false;
+bool inicio = true, pausado, comenzado, reiniciar, terminado, jugando;
+// Variables para juego 1
+bool juego1 = false, fallo = false, acierto = false;
+// Variables para juego 2
+bool juego2 = false;
 bool autores, instrucciones,historia;
 
 // Para objetos 3D
@@ -112,7 +116,7 @@ void initRendering()
     glEnable(GL_LIGHT0);
     glEnable(GL_NORMALIZE); ///Users/mariaroque/Imagenes*/
     // glEnable(GL_COLOR_MATERIAL);
-    glGenTextures(6, texName); //Make room for our texture
+    glGenTextures(30, texName); //Make room for our texture
 
     //Iker
     /*Image* image = loadBMP("/Users/ikerarbululozano/Google Drive/Noveno Semestre/Graficas Computacionales/MundoDeVerminara3D/Mac/ProyectoFinalGraficas/ProyectoFinalGraficas/imagenes/MenuResized.bmp");
@@ -143,13 +147,19 @@ void initRendering()
     sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/Juego1Resized.bmp");                  // 5
     image = loadBMP(ruta);
     loadTexture(image,i++);
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/Juego2Resized.bmp");                  // 6
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/JuegosResized.bmp");                  // 7
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
     delete image;
 }
 
 
 // Timer para que los objetos roten
 static void timer(int i){
-  if (jugando) {
+  if (jugando and juego1 and !juego2) {
     if (i ==2) {
       Cubo aux;
       aux.x = ancho;
@@ -322,7 +332,13 @@ static void pantallaHistoria(){
   cargarImagenFondo(3);
 }
 
-static void pantallaJugando(){
+// Pantalla Juegos
+static void pantallaJuegos(){
+    // Cargar la imagen textura del fondo
+    cargarImagenFondo(7);
+}
+
+static void pantallaJuego1(){
   // Cargar la imagen textura del fondo
   cargarImagenFondo(5);
 
@@ -383,6 +399,12 @@ static void pantallaJugando(){
   fallo = false;
 }
 
+// Juego 2
+static void pantallaJuego2(){
+    // Cargar la imagen textura del fondo
+    cargarImagenFondo(6);
+}
+
 void validarPresionado(char theKey){
   if (!cubos.empty()) {
     if (cubos.front().x-(anchoCubo/2.0) < anchoCubo/2.0) {
@@ -421,8 +443,14 @@ static void myDisplay(void)
   glLightfv(GL_LIGHT0, GL_POSITION, light_position);
   glEnable(GL_TEXTURE_2D);
 
-  if(jugando){
-    pantallaJugando();
+  if(jugando and !juego1 and !juego2){
+    pantallaJuegos();
+  }
+  else if(jugando and juego1 and !juego2){              // Despliega pantalla de juego 1
+    pantallaJuego1();
+  }
+  else if(jugando and !juego1 and juego2){               // Despliega pantalla de juego 2
+    pantallaJuego2();
   }
   else if(autores){
     pantallaAutores();                                  // Despliega pantalla autores
@@ -464,7 +492,7 @@ void init(){
 
 void myKeyboard(unsigned char theKey, int mouseX, int mouseY)
 {
-  if (jugando) {
+  if (jugando and juego1) {
     validarPresionado(theKey);
   }
   switch (theKey)
@@ -491,6 +519,21 @@ void myKeyboard(unsigned char theKey, int mouseX, int mouseY)
     case 'J':
       if(inicio and !historia and !pausado and !terminado and !autores and !instrucciones){
         jugando = !jugando;
+        juego1 = juego2 = false;
+      }
+      break;
+    // Juego 1
+    case '1':
+      if(inicio and !historia and !pausado and !terminado and !autores and !instrucciones and jugando and !juego2){
+        /// TODO
+        juego1 = !juego1;
+      }
+      break;
+    // Juego 2
+    case '2':
+      if(inicio and !historia and !pausado and !terminado and !autores and !instrucciones and jugando and !juego1){
+        /// TODO
+        juego2 = !juego2;
       }
       break;
     case 27:                                                    // Quit
