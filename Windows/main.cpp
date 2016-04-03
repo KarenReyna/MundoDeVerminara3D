@@ -40,8 +40,11 @@ bool autores, instrucciones,historia;
 bool juego1 = false, fallo = false, acierto = false;
 
 // Variables para juego 2
-bool juego2 = false;
+bool juego2, juego2Ganado;
 int contJuego2 = 0, auxJuego2 = 0;
+int objJ2Cont1 = 0, objJ2Cont2 = 0, objJ2Cont3 = 0, objJ2Cont4 = 0, objJ2Cont5 = 0, objJ2Cont6 = 0;
+int objGanados = 0;
+bool mostrandoTip;
 
 // Para objetos 3D
 static GLuint texName[36];                                    // Texturas
@@ -156,6 +159,44 @@ void initRendering()
     sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/JuegosResized.bmp");                  // 7
     image = loadBMP(ruta);
     loadTexture(image,i++);
+
+    // Imagenes para tips
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/tips/ComerResized1.bmp");             // 8
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/tips/ComerResized2.bmp");             // 9
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/tips/ComerResized3.bmp");             // 10
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/tips/EjercicioResized1.bmp");         // 11
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/tips/EjercicioResized2.bmp");         // 12
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/tips/EjercicioResized3.bmp");         // 13
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/tips/HigieneResized.bmp");            // 14
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/tips/ActividadSocialResized.bmp");    // 15
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/tips/HabitosToxicosResized.bmp");     // 16
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/tips/DormirResized1.bmp");            // 17
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/tips/DormirResized2.bmp");            // 18
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/tips/DormirResized3.bmp");            // 19
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
     delete image;
 }
 
@@ -192,12 +233,12 @@ static void timer(int i){
     angulo += 10;
 
     // Variables para mover los objetos en el juego 2
-    if(juego2 and auxJuego2 == 0){
+    if(juego2 and auxJuego2 == 0 and !mostrandoTip){
         contJuego2 += 5;
         if(contJuego2 > 420)
             auxJuego2 = 1;
     }
-    else if(juego2 and auxJuego2 == 1){
+    else if(juego2 and auxJuego2 == 1 and !mostrandoTip){
         contJuego2 -= 5;
         if(contJuego2 < 0)
             auxJuego2 = 0;
@@ -565,7 +606,35 @@ static void myDisplay(void)
   glLightfv(GL_LIGHT0, GL_POSITION, light_position);
   glEnable(GL_TEXTURE_2D);
 
-  if(jugando and !juego1 and !juego2){
+  if(juego2 and juego2Ganado){
+    // Cargar la imagen textura del fondo
+    cargarImagenFondo(5);
+  }
+  else if(juego2 and objJ2Cont1 == 3 and mostrandoTip){
+    // Cargar la imagen textura del fondo
+    cargarImagenFondo(8);
+  }
+  else if(objJ2Cont2 == 3 and mostrandoTip){
+    // Cargar la imagen textura del fondo
+    cargarImagenFondo(11);
+  }
+  else if(objJ2Cont3 == 3 and mostrandoTip){
+    // Cargar la imagen textura del fondo
+    cargarImagenFondo(14);
+  }
+  else if(objJ2Cont4 == 3 and mostrandoTip){
+    // Cargar la imagen textura del fondo
+    cargarImagenFondo(15);
+  }
+  else if(objJ2Cont5 == 3 and mostrandoTip){
+    // Cargar la imagen textura del fondo
+    cargarImagenFondo(16);
+  }
+  else if(objJ2Cont6 == 3 and mostrandoTip){
+    // Cargar la imagen textura del fondo
+    cargarImagenFondo(17);
+  }
+  else if(jugando and !juego1 and !juego2){                  // Menu Juegos
     pantallaJuegos();
   }
   else if(jugando and juego1 and !juego2){              // Despliega pantalla de juego 1
@@ -679,20 +748,92 @@ void myKeyboard(unsigned char theKey, int mouseX, int mouseY)
         juego1 = juego2 = false;
       }
       break;
-    // Juego 1
+    case 'r':
+    case 'R':
+        if(inicio and !historia and !pausado and !terminado and !autores and !instrucciones and jugando and juego2){
+            mostrandoTip = false;
+            // Aumenta los tips vistos, cuando llega a 5 el juego 2 termina
+            objGanados++;
+            if(objGanados == 6){
+                juego2Ganado = true;
+            }
+            // Incrementar contador para que ya no despliegue el tip
+            if(objJ2Cont1 == 3)
+                objJ2Cont1++;
+            else if(objJ2Cont2 == 3)
+                objJ2Cont2++;
+            else if(objJ2Cont3 == 3)
+                objJ2Cont3++;
+            else if(objJ2Cont4 == 3)
+                objJ2Cont4++;
+            else if(objJ2Cont5 == 3)
+                objJ2Cont5++;
+            else if(objJ2Cont6 == 3)
+                objJ2Cont6++;
+        }
+        break;
     case '1':
-      if(inicio and !historia and !pausado and !terminado and !autores and !instrucciones and jugando and !juego2){
-        /// TODO
-        juego1 = !juego1;
-      }
-      break;
-    // Juego 2
+        // Juego 1
+        if(inicio and !historia and !pausado and !terminado and !autores and !instrucciones and jugando and !juego2){
+            juego1 = !juego1;
+        }
+        // Juego 2, seleccionar manzana
+        else if(inicio and jugando and juego2 and objJ2Cont1 < 3){
+            objJ2Cont1++;
+            if(objJ2Cont1 == 3){
+                mostrandoTip = true;
+            }
+        }
+        break;
     case '2':
-      if(inicio and !historia and !pausado and !terminado and !autores and !instrucciones and jugando and !juego1){
-        /// TODO
-        juego2 = !juego2;
-      }
-      break;
+        // Juego 2, seleccionar pesa
+        if(inicio and jugando and juego2 and objJ2Cont2 < 3){
+            objJ2Cont2++;
+            if(objJ2Cont2 == 3){
+                mostrandoTip = true;
+            }
+        }
+        // Juego 2
+        else if(inicio and !historia and !pausado and !terminado and !autores and !instrucciones and jugando and !juego1 and objJ2Cont2 < 3){
+            juego2 = !juego2;
+        }
+        break;
+    case '3':
+        // Juego 2, seleccionar jabon
+        if(inicio and jugando and juego2 and objJ2Cont3 < 3){
+            objJ2Cont3++;
+            if(objJ2Cont3 == 3){
+                mostrandoTip = true;
+            }
+        }
+        break;
+    case '4':
+        // Juego 2, seleccionar globos
+        if(inicio and jugando and juego2 and objJ2Cont4 < 3){
+            objJ2Cont4++;
+            if(objJ2Cont4 == 3){
+                mostrandoTip = true;
+            }
+        }
+        break;
+    case '5':
+        // Juego 2, seleccionar cigarro
+        if(inicio and jugando and juego2 and objJ2Cont5 < 3){
+            objJ2Cont5++;
+            if(objJ2Cont5 == 3){
+                mostrandoTip = true;
+            }
+        }
+        break;
+    case '6':
+        // Juego 2, seleccionar cama
+        if(inicio and jugando and juego2 and objJ2Cont6 < 3){
+            objJ2Cont6++;
+            if(objJ2Cont6 == 3){
+                mostrandoTip = true;
+            }
+        }
+        break;
     case 27:                                                    // Quit
       exit(-1);
       break;
