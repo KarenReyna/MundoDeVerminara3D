@@ -43,12 +43,12 @@ bool juego1 = false, fallo = false, acierto = false;
 bool juego2, juego2Ganado;
 int contJuego2 = 0, auxJuego2 = 0;
 int objJ2Cont1 = 0, objJ2Cont2 = 0, objJ2Cont3 = 0, objJ2Cont4 = 0, objJ2Cont5 = 0, objJ2Cont6 = 0;
-int objGanados = 0;
+int objGanados = 0, numTip = 1;
 bool mostrandoTip;
 
 // Para objetos 3D
 static GLuint texName[36];                                    // Texturas
-GLMmodel model[6];
+GLMmodel model[20];
 string fullPath = __FILE__;
 GLfloat light_position[] = { 1.0, 1.0, 1.0, 0.0 };      //Puntual
 
@@ -197,6 +197,11 @@ void initRendering()
     sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/tips/DormirResized3.bmp");            // 19
     image = loadBMP(ruta);
     loadTexture(image,i++);
+/*
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/Shoot1.bmp");                         // 20
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+*/
     delete image;
 }
 
@@ -279,6 +284,16 @@ static void cama(){
     glmDraw(&model[5], GLM_COLOR|GLM_FLAT);
 }
 
+// Objeto 3D
+static void diamondGreen(){
+    glmDraw(&model[6], GLM_COLOR|GLM_FLAT);
+}
+
+// Objeto 3D
+static void diamondLightGreen(){
+    glmDraw(&model[7], GLM_COLOR|GLM_FLAT);
+}
+
 // Desplegar texto en tama�o peque�o
 static void letreroLetraPequena(string texto){
   int yRaster = 0;
@@ -340,6 +355,23 @@ static void dibujaBaseAutores(){
   glTranslatef(-50,0,0);
 }
 
+// Dibuja la base de R-Regresar
+static void dibujaBaseRegresar(){
+  glTranslatef(30,0,0);
+  glColor3f(0.098,0.098,0.439);
+  glPushMatrix();
+  glTranslatef(0,-20,-1);
+  glScalef(20,15,5);
+  glutSolidDodecahedron();
+  glPopMatrix();
+  glColor3f(0-117,0.5647,1);
+  glPushMatrix();
+  glScalef(20,15,5);
+  glutSolidDodecahedron();
+  glPopMatrix();
+  glTranslatef(-50,0,0);
+}
+
 // Funci�n para cargar la imagen textura del fondo
 static void cargarImagenFondo(int indice){
   // Background Image Texture
@@ -360,6 +392,28 @@ static void cargarImagenFondo(int indice){
   glVertex2f(0, 0);                   // v3
   glEnd();
   glPopMatrix();
+}
+
+// Deplegar diamante tip de juego 2
+static void tipsDiamanteDesplegado(int posX){
+    // Mueve el objeto: cigarro
+    glPushMatrix();
+        glTranslatef(posX, -210, -50);
+        glRotatef(angulo, 0, 1, 0);
+        glScalef(20,-20,20);
+        diamondGreen();
+    glPopMatrix();
+}
+
+// Deplegar diamante tip de juego 2
+static void tipsDiamanteNoDesplegado(int posX){
+    // Mueve el objeto: cigarro
+    glPushMatrix();
+        glTranslatef(posX, -210, -50);
+        glRotatef(angulo, 0, 1, 0);
+        glScalef(20,-20,20);
+        diamondLightGreen();
+    glPopMatrix();
 }
 
 // Desplegado en pantalla principal
@@ -487,6 +541,17 @@ static void pantallaJuego2(){
     // Cargar la imagen textura del fondo
     cargarImagenFondo(6);
 
+    // Dibuja base regresar
+    glPushMatrix();
+        glTranslatef(((ancho/2)-40),(largo/4)+120,-30);
+        glRotatef(angulo,0,1,0);
+        glScalef(0.8,1,1);
+        glTranslatef(-35,0,0);
+        dibujaBaseRegresar();
+        glTranslatef(0,0,20);
+        letreroLetraPequena("J - Menu");
+    glPopMatrix();
+
     int movY = -145;
 
     // Mueve el objeto: manzana
@@ -597,6 +662,40 @@ void reshape(int ancho, int largo)
   gluLookAt(0, 0, 15, 0, 0, 0, 0, 1,0);
 }
 
+// Funcion para desplegar el fondo de cada tip y los diamantes que señalan el número de tip desplegado
+// Cuando hay 3 tips
+static void desplegarMasDeUnTip(int numImagenFondo){
+    if(numTip == 1){
+        cargarImagenFondo(numImagenFondo);
+        glColor3f(255,0,0);
+        tipsDiamanteDesplegado(-100);
+        tipsDiamanteNoDesplegado(-50);
+        tipsDiamanteNoDesplegado(0);
+    }
+    else if(numTip == 2){
+        cargarImagenFondo(numImagenFondo + 1);
+        glColor3f(255,0,0);
+        tipsDiamanteNoDesplegado(-100);
+        tipsDiamanteDesplegado(-50);
+        tipsDiamanteNoDesplegado(0);
+    }
+    else if(numTip == 3){
+        cargarImagenFondo(numImagenFondo + 2);
+        glColor3f(255,0,0);
+        tipsDiamanteNoDesplegado(-100);
+        tipsDiamanteNoDesplegado(-50);
+        tipsDiamanteDesplegado(0);
+    }
+}
+
+// Funcion para desplegar el fondo del tip y los diamantes que señalan el número de tip desplegado
+// Cuando solo hay un tip
+static void desplegarUnTip(int numImagenFondo){
+    cargarImagenFondo(numImagenFondo);
+    glColor3f(255,0,0);
+    tipsDiamanteDesplegado(-100);
+}
+
 // Display
 static void myDisplay(void)
 {
@@ -611,30 +710,30 @@ static void myDisplay(void)
     cargarImagenFondo(5);
   }
   else if(juego2 and objJ2Cont1 == 3 and mostrandoTip){
-    // Cargar la imagen textura del fondo
-    cargarImagenFondo(8);
+    // Cargar los tips
+    desplegarMasDeUnTip(8);
   }
   else if(objJ2Cont2 == 3 and mostrandoTip){
-    // Cargar la imagen textura del fondo
-    cargarImagenFondo(11);
+    // Cargar los tips
+    desplegarMasDeUnTip(11);
   }
   else if(objJ2Cont3 == 3 and mostrandoTip){
-    // Cargar la imagen textura del fondo
-    cargarImagenFondo(14);
+    // Cargar el tip
+    desplegarUnTip(14);
   }
   else if(objJ2Cont4 == 3 and mostrandoTip){
-    // Cargar la imagen textura del fondo
-    cargarImagenFondo(15);
+    // Cargar el tip
+    desplegarUnTip(15);
   }
   else if(objJ2Cont5 == 3 and mostrandoTip){
-    // Cargar la imagen textura del fondo
-    cargarImagenFondo(16);
+    // Cargar el tip
+    desplegarUnTip(16);
   }
   else if(objJ2Cont6 == 3 and mostrandoTip){
-    // Cargar la imagen textura del fondo
-    cargarImagenFondo(17);
+    // Cargar los tips
+    desplegarMasDeUnTip(17);
   }
-  else if(jugando and !juego1 and !juego2){                  // Menu Juegos
+  else if(jugando and !juego1 and !juego2){             // Menu Juegos
     pantallaJuegos();
   }
   else if(jugando and juego1 and !juego2){              // Despliega pantalla de juego 1
@@ -678,31 +777,43 @@ void init(){
     ruta = fullPath+ "imagenes/weight.obj";
     model[1]= *glmReadOBJ(ruta.c_str());
     glmUnitize(&model[1]);
-    glmVertexNormals(&model[0],90.0,GL_TRUE);
+    glmVertexNormals(&model[1],90.0,GL_TRUE);
 
     // Modelo para sección: higiene
     ruta = fullPath+ "imagenes/soap.obj";
     model[2]= *glmReadOBJ(ruta.c_str());
     glmUnitize(&model[2]);
-    glmVertexNormals(&model[0],90.0,GL_TRUE);
+    glmVertexNormals(&model[2],90.0,GL_TRUE);
 
     // Modelo para sección: actividad social
     ruta = fullPath+ "imagenes/party.obj";
     model[3]= *glmReadOBJ(ruta.c_str());
     glmUnitize(&model[3]);
-    glmVertexNormals(&model[0],90.0,GL_TRUE);
+    glmVertexNormals(&model[3],90.0,GL_TRUE);
 
     // Modelo para sección: hábitos tóxicos
     ruta = fullPath+ "imagenes/cig.obj";
     model[4]= *glmReadOBJ(ruta.c_str());
     glmUnitize(&model[4]);
-    glmVertexNormals(&model[0],90.0,GL_TRUE);
+    glmVertexNormals(&model[4],90.0,GL_TRUE);
 
     // Modelo para sección: dormir
     ruta = fullPath+ "imagenes/bed.obj";
     model[5]= *glmReadOBJ(ruta.c_str());
     glmUnitize(&model[5]);
-    glmVertexNormals(&model[0],90.0,GL_TRUE);
+    glmVertexNormals(&model[5],90.0,GL_TRUE);
+
+    // Modelo diamond Green
+    ruta = fullPath+ "imagenes/diamondGreen.obj";
+    model[6]= *glmReadOBJ(ruta.c_str());
+    glmUnitize(&model[6]);
+    glmVertexNormals(&model[6],90.0,GL_TRUE);
+
+    // Modelo diamond Light Green
+    ruta = fullPath+ "imagenes/diamondLightGreen.obj";
+    model[7]= *glmReadOBJ(ruta.c_str());
+    glmUnitize(&model[7]);
+    glmVertexNormals(&model[7],90.0,GL_TRUE);
 
   // Objetos 3D
   // Ana
@@ -748,15 +859,19 @@ void myKeyboard(unsigned char theKey, int mouseX, int mouseY)
         juego1 = juego2 = false;
       }
       break;
+    case 's':
+    case 'S':
+      if(inicio and !historia and !pausado and !terminado and !autores and !instrucciones and jugando and juego2 and mostrandoTip){
+        if(numTip < 3)
+            numTip++;
+      }
+      break;
     case 'r':
     case 'R':
         if(inicio and !historia and !pausado and !terminado and !autores and !instrucciones and jugando and juego2){
             mostrandoTip = false;
-            // Aumenta los tips vistos, cuando llega a 5 el juego 2 termina
-            objGanados++;
-            if(objGanados == 6){
-                juego2Ganado = true;
-            }
+            numTip = 1;
+
             // Incrementar contador para que ya no despliegue el tip
             if(objJ2Cont1 == 3)
                 objJ2Cont1++;
@@ -770,37 +885,43 @@ void myKeyboard(unsigned char theKey, int mouseX, int mouseY)
                 objJ2Cont5++;
             else if(objJ2Cont6 == 3)
                 objJ2Cont6++;
+
+            // Aumenta los tips vistos, cuando llega a 5 el juego 2 termina
+            objGanados++;
+            if(objGanados == 6){
+                juego2Ganado = true;
+            }
         }
         break;
     case '1':
-        // Juego 1
-        if(inicio and !historia and !pausado and !terminado and !autores and !instrucciones and jugando and !juego2){
-            juego1 = !juego1;
-        }
         // Juego 2, seleccionar manzana
-        else if(inicio and jugando and juego2 and objJ2Cont1 < 3){
+        if(inicio and jugando and juego2 and objJ2Cont1 < 3 and !mostrandoTip){
             objJ2Cont1++;
             if(objJ2Cont1 == 3){
                 mostrandoTip = true;
             }
         }
+        // Juego 1
+        else if(inicio and !historia and !pausado and !terminado and !autores and !instrucciones and jugando and !juego2){
+            juego1 = !juego1;
+        }
         break;
     case '2':
         // Juego 2, seleccionar pesa
-        if(inicio and jugando and juego2 and objJ2Cont2 < 3){
+        if(inicio and jugando and juego2 and objJ2Cont2 < 3 and !mostrandoTip){
             objJ2Cont2++;
             if(objJ2Cont2 == 3){
                 mostrandoTip = true;
             }
         }
         // Juego 2
-        else if(inicio and !historia and !pausado and !terminado and !autores and !instrucciones and jugando and !juego1 and objJ2Cont2 < 3){
+        else if(inicio and !historia and !pausado and !terminado and !autores and !instrucciones and jugando and !juego1 and objJ2Cont2 < 3 and !mostrandoTip){
             juego2 = !juego2;
         }
         break;
     case '3':
         // Juego 2, seleccionar jabon
-        if(inicio and jugando and juego2 and objJ2Cont3 < 3){
+        if(inicio and jugando and juego2 and objJ2Cont3 < 3 and !mostrandoTip){
             objJ2Cont3++;
             if(objJ2Cont3 == 3){
                 mostrandoTip = true;
@@ -809,7 +930,7 @@ void myKeyboard(unsigned char theKey, int mouseX, int mouseY)
         break;
     case '4':
         // Juego 2, seleccionar globos
-        if(inicio and jugando and juego2 and objJ2Cont4 < 3){
+        if(inicio and jugando and juego2 and objJ2Cont4 < 3 and !mostrandoTip){
             objJ2Cont4++;
             if(objJ2Cont4 == 3){
                 mostrandoTip = true;
@@ -818,7 +939,7 @@ void myKeyboard(unsigned char theKey, int mouseX, int mouseY)
         break;
     case '5':
         // Juego 2, seleccionar cigarro
-        if(inicio and jugando and juego2 and objJ2Cont5 < 3){
+        if(inicio and jugando and juego2 and objJ2Cont5 < 3 and !mostrandoTip){
             objJ2Cont5++;
             if(objJ2Cont5 == 3){
                 mostrandoTip = true;
@@ -827,7 +948,7 @@ void myKeyboard(unsigned char theKey, int mouseX, int mouseY)
         break;
     case '6':
         // Juego 2, seleccionar cama
-        if(inicio and jugando and juego2 and objJ2Cont6 < 3){
+        if(inicio and jugando and juego2 and objJ2Cont6 < 3 and !mostrandoTip){
             objJ2Cont6++;
             if(objJ2Cont6 == 3){
                 mostrandoTip = true;
