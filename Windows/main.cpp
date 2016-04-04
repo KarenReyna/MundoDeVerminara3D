@@ -38,6 +38,7 @@ bool autores, instrucciones,historia;
 
 // Variables para juego 1
 bool juego1 = false, fallo = false, acierto = false;
+bool juego1Ganado;
 
 // Variables para juego 2
 bool juego2, juego2Ganado;
@@ -45,10 +46,12 @@ int contJuego2 = 0, auxJuego2 = 0;
 int objJ2Cont1 = 0, objJ2Cont2 = 0, objJ2Cont3 = 0, objJ2Cont4 = 0, objJ2Cont5 = 0, objJ2Cont6 = 0;
 int objGanados = 0, numTip = 1;
 bool mostrandoTip;
+const int TEXTURE_COUNT = 8;
+int anguloJuegos = 21;
 
 // Para objetos 3D
-static GLuint texName[36];                                    // Texturas
-GLMmodel model[20];
+static GLuint texName[40];                                    // Texturas
+GLMmodel model[40];
 string fullPath = __FILE__;
 GLfloat light_position[] = { 1.0, 1.0, 1.0, 0.0 };      //Puntual
 
@@ -122,7 +125,7 @@ void initRendering()
     glEnable(GL_LIGHT0);
     glEnable(GL_NORMALIZE); ///Users/mariaroque/Imagenes*/
     // glEnable(GL_COLOR_MATERIAL);
-    glGenTextures(30, texName); //Make room for our texture
+    glGenTextures(40, texName); //Make room for our texture
 
     //Iker
     /*Image* image = loadBMP("/Users/ikerarbululozano/Google Drive/Noveno Semestre/Graficas Computacionales/MundoDeVerminara3D/Mac/ProyectoFinalGraficas/ProyectoFinalGraficas/imagenes/MenuResized.bmp");
@@ -197,11 +200,35 @@ void initRendering()
     sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/tips/DormirResized3.bmp");            // 19
     image = loadBMP(ruta);
     loadTexture(image,i++);
-/*
-    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/Shoot1.bmp");                         // 20
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/Juego2GanadoResized.bmp");            // 20
     image = loadBMP(ruta);
     loadTexture(image,i++);
-*/
+
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/JuegosResized1.bmp");                 // 21
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/JuegosResized2.bmp");                 // 22
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/JuegosResized3.bmp");                 // 23
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/JuegosResized4.bmp");                 // 24
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/JuegosResized5.bmp");                 // 25
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/JuegosResized6.bmp");                 // 26
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/JuegosResized7.bmp");                 // 27
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/JuegosResized8.bmp");                 // 28
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+
     delete image;
 }
 
@@ -252,6 +279,17 @@ static void timer(int i){
     glutTimerFunc(80, timer, 1);
   }
   glutPostRedisplay();
+}
+
+// Timer para cambiar las imagenes de la pantalla Juegos
+void timerPantallaJuegos(int value)
+{
+    if(jugando){
+    anguloJuegos = anguloJuegos +1;
+        if (anguloJuegos == TEXTURE_COUNT + 21) anguloJuegos =21;
+        glutPostRedisplay();
+        glutTimerFunc(150,timerPantallaJuegos,0);
+    }
 }
 
 // Objeto 3D
@@ -355,21 +393,30 @@ static void dibujaBaseAutores(){
   glTranslatef(-50,0,0);
 }
 
-// Dibuja la base de R-Regresar
-static void dibujaBaseRegresar(){
-  glTranslatef(30,0,0);
-  glColor3f(0.098,0.098,0.439);
-  glPushMatrix();
-  glTranslatef(0,-20,-1);
-  glScalef(20,15,5);
-  glutSolidDodecahedron();
-  glPopMatrix();
-  glColor3f(0-117,0.5647,1);
-  glPushMatrix();
-  glScalef(20,15,5);
-  glutSolidDodecahedron();
-  glPopMatrix();
-  glTranslatef(-50,0,0);
+// Dibuja la base de Regresar
+static void dibujaBaseRegresar(string letreroDesplegar){
+  // Dibuja base regresar
+    glPushMatrix();
+        glTranslatef(((ancho/2)-40),(largo/4)+120,-30);
+        glRotatef(angulo,0,1,0);
+        glScalef(0.8,1,1);
+        glTranslatef(-35,0,0);
+        glTranslatef(30,0,0);
+            glColor3f(0.098,0.098,0.439);
+            glPushMatrix();
+                glTranslatef(0,-20,-1);
+                glScalef(20,15,5);
+                glutSolidDodecahedron();
+            glPopMatrix();
+            glColor3f(0-117,0.5647,1);
+            glPushMatrix();
+                glScalef(20,15,5);
+                glutSolidDodecahedron();
+            glPopMatrix();
+            glTranslatef(-50,0,0);
+        glTranslatef(0,0,20);
+        letreroLetraPequena(letreroDesplegar);
+    glPopMatrix();
 }
 
 // Funci�n para cargar la imagen textura del fondo
@@ -443,41 +490,61 @@ static void pantallaInicial(){
 
 // Despliega pantalla de autores
 static void pantallaAutores(){
-  // Cargar la imagen textura del fondo
-  cargarImagenFondo(1);
-
-  // Bot�n Quitar autores
-  /*glPushMatrix();
-   glTranslatef(0,-150,-45);
-   glRotatef(angulo,0,1,0);
-   glScalef(0.8,1,1);
-   dibujaBaseAutores();
-   glTranslatef(0,0,20);
-   letreroLetraPequena("A - Home");
-   glPopMatrix();*/
+    // Cargar la imagen textura del fondo
+    cargarImagenFondo(1);
+    // Dibuja base regresar
+    dibujaBaseRegresar("A - Menu");
 }
 
 // Despliega pantalla de instrucciones
 static void pantallaInstrucciones(){
-  // Cargar la imagen textura del fondo
-  cargarImagenFondo(2);
+    // Cargar la imagen textura del fondo
+    cargarImagenFondo(2);
+    // Dibuja base regresar
+    dibujaBaseRegresar("I - Menu");
 }
 
 // Despliega pantalla de historia
 static void pantallaHistoria(){
-  // Cargar la imagen textura del fondo
-  cargarImagenFondo(3);
+    // Cargar la imagen textura del fondo
+    cargarImagenFondo(3);
+    // Dibuja base regresar
+    dibujaBaseRegresar("H - Menu");
 }
 
 // Pantalla Juegos
 static void pantallaJuegos(){
     // Cargar la imagen textura del fondo
-    cargarImagenFondo(7);
+    cargarImagenFondo(anguloJuegos);
+    // Dibuja base regresar
+    dibujaBaseRegresar("J - Menu");
+
+    // Dibujar icono juego 1
+    // Puse un QUADS en lugar, pero no se si esto sea lo mejor por lo del cubo que quieres manejar
+    /*glPushMatrix();
+        glTranslatef(-50, -largo/2.0+anchoCubo/2.0-30, 0);
+        glBindTexture(GL_TEXTURE_2D, texName[21]);
+        glBegin(GL_QUADS);
+            glColor4ub(255, 255, 255,255);       // Color
+            glTexCoord2f(1.0f, 0.0f);
+            glVertex2f(100, 0);                 // v0
+            glTexCoord2f(1.0f, 1.0f);
+            glVertex2f(100, 100);               // v1
+            glTexCoord2f(0.0f, 1.0f);
+            glVertex2f(0, 100);                 // v2
+            glTexCoord2f(0.0f, 0.0f);
+            glVertex2f(0, 0);                   // v3
+        glEnd();
+    glPopMatrix();*/
+
+    // Dibujar icono juego 2
 }
 
 static void pantallaJuego1(){
   // Cargar la imagen textura del fondo
   cargarImagenFondo(5);
+  // Dibuja base regresar
+  dibujaBaseRegresar("J - Menu");
 
   glColor3f(0, 0, 0);
   if (fallo) {
@@ -542,15 +609,7 @@ static void pantallaJuego2(){
     cargarImagenFondo(6);
 
     // Dibuja base regresar
-    glPushMatrix();
-        glTranslatef(((ancho/2)-40),(largo/4)+120,-30);
-        glRotatef(angulo,0,1,0);
-        glScalef(0.8,1,1);
-        glTranslatef(-35,0,0);
-        dibujaBaseRegresar();
-        glTranslatef(0,0,20);
-        letreroLetraPequena("J - Menu");
-    glPopMatrix();
+    dibujaBaseRegresar("J - Menu");
 
     int movY = -145;
 
@@ -633,6 +692,14 @@ static void pantallaJuego2(){
     glPopMatrix();
 }
 
+// Juego 2 Ganado
+static void pantallaJuego2Ganado(){
+    // Cargar la imagen textura del fondo
+    cargarImagenFondo(20);
+    // Dibuja base regresar
+    dibujaBaseRegresar("R - Reiniciar");
+}
+
 void validarPresionado(char theKey){
   if (!cubos.empty()) {
     if (cubos.front().x-(anchoCubo/2.0) < anchoCubo/2.0) {
@@ -665,6 +732,8 @@ void reshape(int ancho, int largo)
 // Funcion para desplegar el fondo de cada tip y los diamantes que señalan el número de tip desplegado
 // Cuando hay 3 tips
 static void desplegarMasDeUnTip(int numImagenFondo){
+    // Dibuja base regresar
+    dibujaBaseRegresar("C-Continuar");
     if(numTip == 1){
         cargarImagenFondo(numImagenFondo);
         glColor3f(255,0,0);
@@ -691,6 +760,9 @@ static void desplegarMasDeUnTip(int numImagenFondo){
 // Funcion para desplegar el fondo del tip y los diamantes que señalan el número de tip desplegado
 // Cuando solo hay un tip
 static void desplegarUnTip(int numImagenFondo){
+    // Dibuja base regresar
+    dibujaBaseRegresar("C-Continuar");
+
     cargarImagenFondo(numImagenFondo);
     glColor3f(255,0,0);
     tipsDiamanteDesplegado(-100);
@@ -705,7 +777,10 @@ static void myDisplay(void)
   glLightfv(GL_LIGHT0, GL_POSITION, light_position);
   glEnable(GL_TEXTURE_2D);
 
-  if(juego2 and juego2Ganado){
+  if(juego2Ganado){
+    pantallaJuego2Ganado();
+  }
+  else if(juego2 and juego2Ganado){
     // Cargar la imagen textura del fondo
     cargarImagenFondo(5);
   }
@@ -821,10 +896,6 @@ void init(){
   //string ruta = fullPath + "imagenes/hamburger/hamburger.obj";
   // Iker
   //string ruta = "/Users/ikerarbululozano/Google Drive/Noveno Semestre/Graficas Computacionales/MundoDeVerminara3D/Mac/ProyectoFinalGraficas/ProyectoFinalGraficas/imagenes/hamburger/hamburger.obj";
-/*
-  model[0]= *glmReadOBJ(ruta.c_str());
-  glmUnitize(&model[0]);
-  glmVertexNormals(&model[0],90.0,GL_TRUE);*/
 }
 
 void myKeyboard(unsigned char theKey, int mouseX, int mouseY)
@@ -857,6 +928,7 @@ void myKeyboard(unsigned char theKey, int mouseX, int mouseY)
       if(inicio and !historia and !pausado and !terminado and !autores and !instrucciones){
         jugando = !jugando;
         juego1 = juego2 = false;
+        glutTimerFunc(200,timerPantallaJuegos,0);
       }
       break;
     case 's':
@@ -866,9 +938,10 @@ void myKeyboard(unsigned char theKey, int mouseX, int mouseY)
             numTip++;
       }
       break;
-    case 'r':
-    case 'R':
-        if(inicio and !historia and !pausado and !terminado and !autores and !instrucciones and jugando and juego2){
+    // Continuar juego
+    case 'c':
+    case 'C':
+        if(inicio and !historia and !pausado and !terminado and !autores and !instrucciones and jugando and juego2 and mostrandoTip){
             mostrandoTip = false;
             numTip = 1;
 
@@ -892,6 +965,37 @@ void myKeyboard(unsigned char theKey, int mouseX, int mouseY)
                 juego2Ganado = true;
             }
         }
+        break;
+    // Reiniciar juego
+    case 'r':
+    case 'R':
+        // Asignar valores default
+        ancho = 600;
+        largo = 600;
+        iSegundos = 0;
+        juegoInicio = false;
+        ayuda = true;
+        contar = false;
+
+        inicio = true;
+        pausado, comenzado, reiniciar, terminado, jugando = false;
+        autores, instrucciones,historia = false;
+
+        // Variables para juego 1
+        juego1 = fallo = acierto = juego1Ganado = false;
+
+        // Variables para juego 2
+        juego2, juego2Ganado, mostrandoTip = false;
+        contJuego2 = 0, auxJuego2 = 0;
+        objJ2Cont1 = 0, objJ2Cont2 = 0, objJ2Cont3 = 0, objJ2Cont4 = 0, objJ2Cont5 = 0, objJ2Cont6 = 0;
+        objGanados = 0, numTip = 1;
+
+        angulo=-1;
+
+        anchoCubo = 100;
+        velocidadCubo = 5;
+        vueltas=0;
+        cantCubos=0;
         break;
     case '1':
         // Juego 2, seleccionar manzana
