@@ -34,7 +34,7 @@ bool ayuda = true;
 bool contar;
 
 bool inicio = true, pausado, comenzado, reiniciar, terminado, jugando;
-bool autores, instrucciones,historia;
+bool autores, instrucciones,historia, mundos;
 
 // Variables para juego 1
 bool juego1 = false, fallo = false, acierto = false;
@@ -230,6 +230,9 @@ void initRendering()
     loadTexture(image,i++);
 
     sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/PausadoResized.bmp");                 // 29
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/MundosResized.bmp");                  // 30
     image = loadBMP(ruta);
     loadTexture(image,i++);
 
@@ -514,6 +517,14 @@ static void pantallaHistoria(){
     cargarImagenFondo(3);
     // Dibuja base regresar
     dibujaBaseRegresar("H - Menu");
+}
+
+// Despliega pantalla de historia
+static void pantallaMundos(){
+    // Cargar la imagen textura del fondo
+    cargarImagenFondo(30);
+    // Dibuja base regresar
+    dibujaBaseRegresar("V - Menu");
 }
 
 // Pantalla Juegos
@@ -873,7 +884,10 @@ static void myDisplay(void)
     pantallaInstrucciones();                            // Despliega pantalla instrucciones
   }
   else if(historia){
-    pantallaHistoria();
+    pantallaHistoria();                                 // Despliega pantalla historia
+  }
+  else if (mundos){
+    pantallaMundos();                                   // Despliega pantalla mundos
   }
   else if(inicio){
     pantallaInicial();                                  // Despliega pantalla inicial
@@ -956,20 +970,26 @@ void myKeyboard(unsigned char theKey, int mouseX, int mouseY)
   {
     case 'a':                                                   // Autores
     case 'A':
-      if(inicio and !jugando and !pausado and !terminado and !instrucciones){
+      if(inicio and !jugando and !pausado and !terminado and !instrucciones and !historia and !mundos){
         autores = !autores;
       }
       break;
     case 'i':                                                   // Instrucciones
     case 'I':
-      if(inicio and !jugando and !pausado and !terminado and !autores and !historia){
+      if(inicio and !jugando and !pausado and !terminado and !autores and !historia and !mundos){
         instrucciones = !instrucciones;
       }
       break;
     case 'h':                                                   // Historia
     case 'H':
-      if(inicio and !jugando and !pausado and !terminado and !autores and !instrucciones){
+      if(inicio and !jugando and !pausado and !terminado and !autores and !instrucciones and !mundos){
         historia = !historia;
+      }
+      break;
+    case 'v':                                                   // Historia
+    case 'V':
+      if(inicio and !jugando and !pausado and !terminado and !autores and !instrucciones and !historia){
+        mundos = !mundos;
       }
       break;
     case 'j':
@@ -1034,7 +1054,7 @@ void myKeyboard(unsigned char theKey, int mouseX, int mouseY)
 
         inicio = true;
         pausado = comenzado = reiniciar = terminado = jugando = false;
-        autores = instrucciones = historia = false;
+        autores = instrucciones = historia = mundos = false;
 
         // Variables para juego 1
         juego1 = fallo = acierto = juego1Ganado = false;
