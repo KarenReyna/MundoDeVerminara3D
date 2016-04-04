@@ -229,6 +229,10 @@ void initRendering()
     image = loadBMP(ruta);
     loadTexture(image,i++);
 
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/PausadoResized.bmp");                 // 29
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+
     delete image;
 }
 
@@ -265,12 +269,12 @@ static void timer(int i){
     angulo += 10;
 
     // Variables para mover los objetos en el juego 2
-    if(juego2 and auxJuego2 == 0 and !mostrandoTip){
+    if(juego2 and auxJuego2 == 0 and !mostrandoTip and !pausado){
         contJuego2 += 5;
         if(contJuego2 > 420)
             auxJuego2 = 1;
     }
-    else if(juego2 and auxJuego2 == 1 and !mostrandoTip){
+    else if(juego2 and auxJuego2 == 1 and !mostrandoTip and !pausado){
         contJuego2 -= 5;
         if(contJuego2 < 0)
             auxJuego2 = 0;
@@ -285,7 +289,7 @@ static void timer(int i){
 void timerPantallaJuegos(int value)
 {
     if(jugando){
-    anguloJuegos = anguloJuegos +1;
+        anguloJuegos = anguloJuegos + 1;
         if (anguloJuegos == TEXTURE_COUNT + 21) anguloJuegos =21;
         glutPostRedisplay();
         glutTimerFunc(150,timerPantallaJuegos,0);
@@ -423,21 +427,21 @@ static void dibujaBaseRegresar(string letreroDesplegar){
 static void cargarImagenFondo(int indice){
   // Background Image Texture
   glPushMatrix();
-  glTranslatef(-300,-300,-45);
-  glPointSize(1);
-  glLineWidth(3);
-  glBindTexture(GL_TEXTURE_2D, texName[indice]);
-  glBegin(GL_QUADS);
-  glColor4ub(255, 255, 255,255);       // Color
-  glTexCoord2f(1.0f, 0.0f);
-  glVertex2f(600, 0);                 // v0
-  glTexCoord2f(1.0f, 1.0f);
-  glVertex2f(600, 600);               // v1
-  glTexCoord2f(0.0f, 1.0f);
-  glVertex2f(0, 600);                 // v2
-  glTexCoord2f(0.0f, 0.0f);
-  glVertex2f(0, 0);                   // v3
-  glEnd();
+      glTranslatef(-300,-300,-45);
+      glPointSize(1);
+      glLineWidth(3);
+      glBindTexture(GL_TEXTURE_2D, texName[indice]);
+      glBegin(GL_QUADS);
+      glColor4ub(255, 255, 255,255);       // Color
+      glTexCoord2f(1.0f, 0.0f);
+      glVertex2f(600, 0);                 // v0
+      glTexCoord2f(1.0f, 1.0f);
+      glVertex2f(600, 600);               // v1
+      glTexCoord2f(0.0f, 1.0f);
+      glVertex2f(0, 600);                 // v2
+      glTexCoord2f(0.0f, 0.0f);
+      glVertex2f(0, 0);                   // v3
+      glEnd();
   glPopMatrix();
 }
 
@@ -518,26 +522,6 @@ static void pantallaJuegos(){
     cargarImagenFondo(anguloJuegos);
     // Dibuja base regresar
     dibujaBaseRegresar("J - Menu");
-
-    // Dibujar icono juego 1
-    // Puse un QUADS en lugar, pero no se si esto sea lo mejor por lo del cubo que quieres manejar
-    /*glPushMatrix();
-        glTranslatef(-50, -largo/2.0+anchoCubo/2.0-30, 0);
-        glBindTexture(GL_TEXTURE_2D, texName[21]);
-        glBegin(GL_QUADS);
-            glColor4ub(255, 255, 255,255);       // Color
-            glTexCoord2f(1.0f, 0.0f);
-            glVertex2f(100, 0);                 // v0
-            glTexCoord2f(1.0f, 1.0f);
-            glVertex2f(100, 100);               // v1
-            glTexCoord2f(0.0f, 1.0f);
-            glVertex2f(0, 100);                 // v2
-            glTexCoord2f(0.0f, 0.0f);
-            glVertex2f(0, 0);                   // v3
-        glEnd();
-    glPopMatrix();*/
-
-    // Dibujar icono juego 2
 }
 
 static void pantallaJuego1(){
@@ -698,6 +682,59 @@ static void pantallaJuego2Ganado(){
     cargarImagenFondo(20);
     // Dibuja base regresar
     dibujaBaseRegresar("R - Reiniciar");
+
+    // Mueve el objeto: manzana
+    glPushMatrix();
+        glTranslatef(-270, 100, -25);
+        glRotatef(angulo, 0, 1, 0);
+        glRotatef(100, -1, 0, 0);
+        glScalef(-20,-20,20);
+        manzana();
+    glPopMatrix();
+
+    // Mueve el objeto: pesa
+    glPushMatrix();
+        glTranslatef(-180, 170, -25);
+        glRotatef(angulo, 0, 1, 0);
+        //glRotatef(10, 1, 0, 0);
+        glScalef(20,20,20);
+        pesa();
+    glPopMatrix();
+
+    // Mueve el objeto: jabon
+    glPushMatrix();
+        glTranslatef(-200, 0, -25);
+        glRotatef(angulo, 0, 1, 0);
+        glScalef(20,20,20);
+        jabon();
+    glPopMatrix();
+
+    // Mueve el objeto: globos
+    glPushMatrix();
+        glTranslatef(-100, 70, -15);
+        glRotatef(angulo, 0, 1, 0);
+        glRotatef(20, 1, 0, 0);
+        glScalef(40,40,40);
+        globos();
+    glPopMatrix();
+
+    // Mueve el objeto: cigarro
+    glPushMatrix();
+        glTranslatef(-220, -120, -25);
+        glRotatef(angulo, 0, 1, 0);
+        glRotatef(-100, 1, 0, 0);
+        glScalef(40,40,40);
+        cigarro();
+    glPopMatrix();
+
+    // Mueve el objeto: cama
+    glPushMatrix();
+        glTranslatef(-100, -70, -25);
+        glRotatef(angulo, 0, 1, 0);
+        glRotatef(30, 1, 0, 0);
+        glScalef(20,20,20);
+        cama();
+    glPopMatrix();
 }
 
 void validarPresionado(char theKey){
@@ -734,6 +771,14 @@ void reshape(int ancho, int largo)
 static void desplegarMasDeUnTip(int numImagenFondo){
     // Dibuja base regresar
     dibujaBaseRegresar("C-Continuar");
+
+    // Letrero
+    glPushMatrix();
+        glTranslatef(-((ancho/2)-180),-(largo/4)-80,-45);
+        letreroLetraPequena("S - Para ver siguiente tip");
+    glPopMatrix();
+
+    // Desplegar el número de tip
     if(numTip == 1){
         cargarImagenFondo(numImagenFondo);
         glColor3f(255,0,0);
@@ -779,6 +824,10 @@ static void myDisplay(void)
 
   if(juego2Ganado){
     pantallaJuego2Ganado();
+  }
+  else if(pausado){
+    // Cargar la imagen textura del fondo
+    cargarImagenFondo(29);
   }
   else if(juego2 and juego2Ganado){
     // Cargar la imagen textura del fondo
@@ -938,6 +987,12 @@ void myKeyboard(unsigned char theKey, int mouseX, int mouseY)
             numTip++;
       }
       break;
+    case 'p':
+    case 'P':
+      if((juego1 or juego2) and !juego1Ganado and !juego2Ganado and !mostrandoTip){
+        pausado = !pausado;
+      }
+      break;
     // Continuar juego
     case 'c':
     case 'C':
@@ -978,17 +1033,18 @@ void myKeyboard(unsigned char theKey, int mouseX, int mouseY)
         contar = false;
 
         inicio = true;
-        pausado, comenzado, reiniciar, terminado, jugando = false;
-        autores, instrucciones,historia = false;
+        pausado = comenzado = reiniciar = terminado = jugando = false;
+        autores = instrucciones = historia = false;
 
         // Variables para juego 1
         juego1 = fallo = acierto = juego1Ganado = false;
 
         // Variables para juego 2
-        juego2, juego2Ganado, mostrandoTip = false;
+        juego2 = juego2Ganado = mostrandoTip = false;
         contJuego2 = 0, auxJuego2 = 0;
-        objJ2Cont1 = 0, objJ2Cont2 = 0, objJ2Cont3 = 0, objJ2Cont4 = 0, objJ2Cont5 = 0, objJ2Cont6 = 0;
-        objGanados = 0, numTip = 1;
+        objJ2Cont1 = objJ2Cont2 = objJ2Cont3 = objJ2Cont4 = objJ2Cont5 = objJ2Cont6 = 0;
+        objGanados = 0;
+        numTip = 1;
 
         angulo=-1;
 
