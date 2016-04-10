@@ -610,80 +610,130 @@ static void pantallaJuego2(){
 
     // Mueve el objeto: manzana
     glPushMatrix();
-        glTranslatef(-210, movY + contJuego2, -25);
-        glRotatef(angulo, 1, 1, 1);
+        if(objJ2Cont1 < 3){
+            glTranslatef(-210, movY + contJuego2, -25);
+            glRotatef(angulo, 1, 1, 1);
+        }
+        else if(objJ2Cont1 >=3){
+            glTranslatef(-210, movY, -25);
+            glRotatef(310, 0, 1, 0);
+            glRotatef(270, 1, 0, 0);
+        }
         glScalef(20,20,20);
         manzana();
     glPopMatrix();
     // Despliega el numero del objeto: manzana
     glPushMatrix();
-        glTranslatef(-220, movY + contJuego2 - 40, 0);
-        letrero("1");
+        if(objJ2Cont1 < 3){
+            glTranslatef(-220, movY + contJuego2 - 40, 0);
+            letrero("1");
+        }
     glPopMatrix();
 
     // Mueve el objeto: pesa
     glPushMatrix();
-        glTranslatef(-126, movY + contJuego2, -25);
-        glRotatef(angulo, 1, 1, 1);
+        if(objJ2Cont2 < 3){
+            glTranslatef(-126, movY + contJuego2, -25);
+            glRotatef(angulo, 1, 1, 1);
+        }
+        else if(objJ2Cont2 >=3){
+            glTranslatef(-126, movY-10, -25);
+            glRotatef(90, 0, 1, 0);
+        }
         glScalef(20,20,20);
         pesa();
     glPopMatrix();
     // Despliega el numero del objeto: pesa
     glPushMatrix();
-        glTranslatef(-136, movY + contJuego2 - 40, 0);
-        letrero("2");
+        if(objJ2Cont2 < 3){
+            glTranslatef(-136, movY + contJuego2 - 40, 0);
+            letrero("2");
+        }
     glPopMatrix();
 
     // Mueve el objeto: jabon
     glPushMatrix();
-        glTranslatef(-42, movY + contJuego2, -25);
-        glRotatef(angulo, 1, 1, 1);
+        if(objJ2Cont3 < 3){
+            glTranslatef(-42, movY + contJuego2, -25);
+            glRotatef(angulo, 1, 1, 1);
+        }
+        else if(objJ2Cont3 >=3){
+            glTranslatef(-42, movY, -25);
+            glRotatef(90, 0, 1, 0);
+        }
         glScalef(20,20,20);
         jabon();
     glPopMatrix();
     // Despliega el numero del objeto: jabon
     glPushMatrix();
-        glTranslatef(-52, movY + contJuego2 - 40, 0);
-        letrero("3");
+        if(objJ2Cont3 < 3){
+            glTranslatef(-52, movY + contJuego2 - 40, 0);
+            letrero("3");
+        }
     glPopMatrix();
 
     // Mueve el objeto: globos
     glPushMatrix();
-        glTranslatef(42, movY + contJuego2, -25);
-        glRotatef(angulo, 1, 1, 1);
+        if(objJ2Cont4 < 3){
+            glTranslatef(42, movY + contJuego2, -25);
+            glRotatef(angulo, 1, 1, 1);
+        }
+        else if(objJ2Cont4 >=3){
+            glTranslatef(42, movY, -25);
+            glRotatef(90, 0, 1, 0);
+        }
         glScalef(20,20,20);
         globos();
     glPopMatrix();
     // Despliega el numero del objeto: globos
     glPushMatrix();
-        glTranslatef(32, movY + contJuego2 - 40, 0);
-        letrero("4");
+        if(objJ2Cont4 < 3){
+            glTranslatef(32, movY + contJuego2 - 40, 0);
+            letrero("4");
+        }
     glPopMatrix();
 
     // Mueve el objeto: cigarro
     glPushMatrix();
-        glTranslatef(126, movY + contJuego2, -25);
-        glRotatef(angulo, 1, 1, 1);
-        glScalef(20,20,20);
+        if(objJ2Cont5 < 3){
+            glTranslatef(126, movY + contJuego2, -25);
+            glRotatef(angulo, 1, 1, 1);
+        }
+        else if(objJ2Cont5 >=3){
+            glTranslatef(126, movY+5, -25);
+            glRotatef(-90, 1, 0, 0);
+        }
+        glScalef(30,30,30);
         cigarro();
     glPopMatrix();
     // Despliega el numero del objeto: cigarro
     glPushMatrix();
-        glTranslatef(116, movY + contJuego2 - 40, 0);
-        letrero("5");
+        if(objJ2Cont5 < 3){
+            glTranslatef(116, movY + contJuego2 - 40, 0);
+            letrero("5");
+        }
     glPopMatrix();
 
     // Mueve el objeto: cama
     glPushMatrix();
-        glTranslatef(210, movY + contJuego2, -25);
-        glRotatef(angulo, 1, 1, 1);
+        if(objJ2Cont6 < 3){
+            glTranslatef(210, movY + contJuego2, -25);
+            glRotatef(angulo, 1, 1, 1);
+        }
+        else if(objJ2Cont6 >=3){
+            glTranslatef(210, movYj, -25);
+            glRotatef(-90, 0, 0, 1);
+            glRotatef(90, 1, 0, 0);
+        }
         glScalef(20,20,20);
         cama();
     glPopMatrix();
     // Despliega el numero del objeto: cama
     glPushMatrix();
-        glTranslatef(200, movY + contJuego2 - 40, 0);
-        letrero("6");
+        if(objJ2Cont6 < 3){
+            glTranslatef(200, movY + contJuego2 - 40, 0);
+            letrero("6");
+        }
     glPopMatrix();
 }
 
