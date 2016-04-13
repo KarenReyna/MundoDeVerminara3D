@@ -1,0 +1,415 @@
+# depslib dependency file v1.0
+1446050008 source:c:\users\ana\documents\escuela\graficas computacionales\proyecto final\trashninja\main.cpp
+	<windows.h>
+	<GLUT/glut.h>
+	<GL/glut.h>
+	<stdlib.h>
+	<string>
+	<fstream>
+	<iostream>
+	<math.h>
+
+976692172 c:\users\ana\documents\escuela\graficas computacionales\glut\include\gl\glut.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1447435415 source:c:\users\ana\documents\github\trashninja\main.cpp
+	<windows.h>
+	<GLUT/glut.h>
+	<GL/glut.h>
+	<stdlib.h>
+	<string>
+	<fstream>
+	<sstream>
+	<stdio.h>
+	<iostream>
+	<math.h>
+	"glm.h"
+	"imageloader.h"
+
+1447435680 c:\users\ana\documents\github\trashninja\imageloader.h
+
+1446700211 c:\users\ana\documents\github\trashninja\glm.h
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1446700141 source:c:\users\ana\documents\github\trashninja\glm.c
+	"config.h"
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<assert.h>
+	"glm.h"
+	"glmint.h"
+
+1446700394 c:\users\ana\documents\github\trashninja\glmint.h
+
+1446700240 source:c:\users\ana\documents\github\trashninja\glm_util.c
+	"config.h"
+	<stdlib.h>
+	<stdarg.h>
+	<string.h>
+	<stdio.h>
+	"glm.h"
+	"glmint.h"
+
+1446700262 source:c:\users\ana\documents\github\trashninja\glmimg.c
+	"config.h"
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<assert.h>
+	<math.h>
+	<windows.h>
+	<OpenGL/gl.h>
+	<OpenGL/glext.h>
+	<GL/gl.h>
+	<GL/glext.h>
+	"glm.h"
+	"glmint.h"
+
+1446700285 source:c:\users\ana\documents\github\trashninja\glmimg_devil.c
+	"config.h"
+	"glm.h"
+	"glmint.h"
+	<IL/il.h>
+	<stdlib.h>
+
+1446700305 source:c:\users\ana\documents\github\trashninja\glmimg_jpg.c
+	"config.h"
+	"glm.h"
+	"glmint.h"
+	<stdio.h>
+	<setjmp.h>
+	<string.h>
+	<stdlib.h>
+	<jpeglib.h>
+
+1446700326 source:c:\users\ana\documents\github\trashninja\glmimg_png.c
+	"config.h"
+	"glm.h"
+	"glmint.h"
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+	<png.h>
+
+1446700369 source:c:\users\ana\documents\github\trashninja\glmimg_sim.c
+	"config.h"
+	"glm.h"
+	"glmint.h"
+	<simage.h>
+
+1446700347 source:c:\users\ana\documents\github\trashninja\glmimg_sdl.c
+	"config.h"
+	"glm.h"
+	"glmint.h"
+	<SDL/SDL_image.h>
+
+1456949594 source:c:\users\karen_000\dropbox\6 semestre\luis\trashninja\glm.c
+	"config.h"
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<assert.h>
+	"glm.h"
+	"glmint.h"
+
+1456949594 c:\users\karen_000\dropbox\6 semestre\luis\trashninja\glm.h
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1456949594 c:\users\karen_000\dropbox\6 semestre\luis\trashninja\glmint.h
+
+1456949594 source:c:\users\karen_000\dropbox\6 semestre\luis\trashninja\glm_util.c
+	"config.h"
+	<stdlib.h>
+	<stdarg.h>
+	<string.h>
+	<stdio.h>
+	"glm.h"
+	"glmint.h"
+
+1456949594 source:c:\users\karen_000\dropbox\6 semestre\luis\trashninja\glmimg.c
+	"config.h"
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<assert.h>
+	<math.h>
+	<windows.h>
+	<OpenGL/gl.h>
+	<OpenGL/glext.h>
+	<GL/gl.h>
+	<GL/glext.h>
+	"glm.h"
+	"glmint.h"
+
+1456949594 source:c:\users\karen_000\dropbox\6 semestre\luis\trashninja\glmimg_devil.c
+	"config.h"
+	"glm.h"
+	"glmint.h"
+	<IL/il.h>
+	<stdlib.h>
+
+1456949593 source:c:\users\karen_000\dropbox\6 semestre\luis\trashninja\glmimg_jpg.c
+	"config.h"
+	"glm.h"
+	"glmint.h"
+	<stdio.h>
+	<setjmp.h>
+	<string.h>
+	<stdlib.h>
+	<jpeglib.h>
+
+1456949594 source:c:\users\karen_000\dropbox\6 semestre\luis\trashninja\glmimg_png.c
+	"config.h"
+	"glm.h"
+	"glmint.h"
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+	<png.h>
+
+1456949593 source:c:\users\karen_000\dropbox\6 semestre\luis\trashninja\glmimg_sdl.c
+	"config.h"
+	"glm.h"
+	"glmint.h"
+	<SDL/SDL_image.h>
+
+1456949594 source:c:\users\karen_000\dropbox\6 semestre\luis\trashninja\glmimg_sim.c
+	"config.h"
+	"glm.h"
+	"glmint.h"
+	<simage.h>
+
+1456949593 source:c:\users\karen_000\dropbox\6 semestre\luis\trashninja\main.cpp
+	<windows.h>
+	<GLUT/glut.h>
+	<GL/glut.h>
+	<stdlib.h>
+	<string>
+	<fstream>
+	<sstream>
+	<stdio.h>
+	<iostream>
+	<math.h>
+	"glm.h"
+	"imageloader.h"
+	<assert.h>
+	<fstream>
+	"imageloader.h"
+
+1456949593 c:\users\karen_000\dropbox\6 semestre\luis\trashninja\imageloader.h
+
+1456949594 source:c:\users\karen_000\dropbox\6 semestre\gráficas\mundodeverminara3d\glm.c
+	"config.h"
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<assert.h>
+	"glm.h"
+	"glmint.h"
+
+1456949594 c:\users\karen_000\dropbox\6 semestre\gráficas\mundodeverminara3d\glm.h
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1456949594 c:\users\karen_000\dropbox\6 semestre\gráficas\mundodeverminara3d\glmint.h
+
+1456949594 source:c:\users\karen_000\dropbox\6 semestre\gráficas\mundodeverminara3d\glm_util.c
+	"config.h"
+	<stdlib.h>
+	<stdarg.h>
+	<string.h>
+	<stdio.h>
+	"glm.h"
+	"glmint.h"
+
+1456949594 source:c:\users\karen_000\dropbox\6 semestre\gráficas\mundodeverminara3d\glmimg.c
+	"config.h"
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<assert.h>
+	<math.h>
+	<windows.h>
+	<OpenGL/gl.h>
+	<OpenGL/glext.h>
+	<GL/gl.h>
+	<GL/glext.h>
+	"glm.h"
+	"glmint.h"
+
+1456949594 source:c:\users\karen_000\dropbox\6 semestre\gráficas\mundodeverminara3d\glmimg_devil.c
+	"config.h"
+	"glm.h"
+	"glmint.h"
+	<IL/il.h>
+	<stdlib.h>
+
+1456949593 source:c:\users\karen_000\dropbox\6 semestre\gráficas\mundodeverminara3d\glmimg_jpg.c
+	"config.h"
+	"glm.h"
+	"glmint.h"
+	<stdio.h>
+	<setjmp.h>
+	<string.h>
+	<stdlib.h>
+	<jpeglib.h>
+
+1456949594 source:c:\users\karen_000\dropbox\6 semestre\gráficas\mundodeverminara3d\glmimg_png.c
+	"config.h"
+	"glm.h"
+	"glmint.h"
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+	<png.h>
+
+1456949593 source:c:\users\karen_000\dropbox\6 semestre\gráficas\mundodeverminara3d\glmimg_sdl.c
+	"config.h"
+	"glm.h"
+	"glmint.h"
+	<SDL/SDL_image.h>
+
+1456949594 source:c:\users\karen_000\dropbox\6 semestre\gráficas\mundodeverminara3d\glmimg_sim.c
+	"config.h"
+	"glm.h"
+	"glmint.h"
+	<simage.h>
+
+1457898302 source:c:\users\karen_000\dropbox\6 semestre\gráficas\mundodeverminara3d\main.cpp
+	<GLUT/glut.h>
+	<windows.h>
+	<GL/glut.h>
+	<stdlib.h>
+	<stdio.h>
+	<string>
+	<fstream>
+	<sstream>
+	<iostream>
+	<math.h>
+	"glm.h"
+	"imageloader.h"
+	"imageBMP.h"
+
+1456949593 c:\users\karen_000\dropbox\6 semestre\gráficas\mundodeverminara3d\imageloader.h
+
+1457883248 c:\users\karen_000\dropbox\6 semestre\gráficas\mundodeverminara3d\imagebmp.h
+	<assert.h>
+	<fstream>
+	"imageloader.h"
+
+1458097548 source:c:\users\karen_000\dropbox\6 semestre\gráficas\mundodeverminara3d\windows\glm.c
+	"config.h"
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<assert.h>
+	"glm.h"
+	"glmint.h"
+
+1458097548 c:\users\karen_000\dropbox\6 semestre\gráficas\mundodeverminara3d\windows\glm.h
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1458097548 c:\users\karen_000\dropbox\6 semestre\gráficas\mundodeverminara3d\windows\glmint.h
+
+1458097548 source:c:\users\karen_000\dropbox\6 semestre\gráficas\mundodeverminara3d\windows\glm_util.c
+	"config.h"
+	<stdlib.h>
+	<stdarg.h>
+	<string.h>
+	<stdio.h>
+	"glm.h"
+	"glmint.h"
+
+1458097548 source:c:\users\karen_000\dropbox\6 semestre\gráficas\mundodeverminara3d\windows\glmimg.c
+	"config.h"
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<assert.h>
+	<math.h>
+	<windows.h>
+	<OpenGL/gl.h>
+	<OpenGL/glext.h>
+	<GL/gl.h>
+	<GL/glext.h>
+	"glm.h"
+	"glmint.h"
+
+1458097548 source:c:\users\karen_000\dropbox\6 semestre\gráficas\mundodeverminara3d\windows\glmimg_devil.c
+	"config.h"
+	"glm.h"
+	"glmint.h"
+	<IL/il.h>
+	<stdlib.h>
+
+1458097548 source:c:\users\karen_000\dropbox\6 semestre\gráficas\mundodeverminara3d\windows\glmimg_jpg.c
+	"config.h"
+	"glm.h"
+	"glmint.h"
+	<stdio.h>
+	<setjmp.h>
+	<string.h>
+	<stdlib.h>
+	<jpeglib.h>
+
+1458097548 source:c:\users\karen_000\dropbox\6 semestre\gráficas\mundodeverminara3d\windows\glmimg_png.c
+	"config.h"
+	"glm.h"
+	"glmint.h"
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+	<png.h>
+
+1458097548 source:c:\users\karen_000\dropbox\6 semestre\gráficas\mundodeverminara3d\windows\glmimg_sdl.c
+	"config.h"
+	"glm.h"
+	"glmint.h"
+	<SDL/SDL_image.h>
+
+1458097548 source:c:\users\karen_000\dropbox\6 semestre\gráficas\mundodeverminara3d\windows\glmimg_sim.c
+	"config.h"
+	"glm.h"
+	"glmint.h"
+	<simage.h>
+
+1458099572 source:c:\users\karen_000\dropbox\6 semestre\gráficas\mundodeverminara3d\windows\main.cpp
+	<GLUT/glut.h>
+	<windows.h>
+	<GL/glut.h>
+	<stdlib.h>
+	<stdio.h>
+	<string>
+	<fstream>
+	<sstream>
+	<iostream>
+	<math.h>
+	"glm.h"
+	"imageloader.h"
+	"imageBMP.h"
+
+1458097548 c:\users\karen_000\dropbox\6 semestre\gráficas\mundodeverminara3d\windows\imageloader.h
+
+1458097548 c:\users\karen_000\dropbox\6 semestre\gráficas\mundodeverminara3d\windows\imagebmp.h
+	<assert.h>
+	<fstream>
+	"imageloader.h"
+

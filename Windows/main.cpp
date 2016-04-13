@@ -38,7 +38,9 @@ bool autores, instrucciones,historia, mundos;
 
 // Variables para juego 1
 bool juego1 = false, fallo = false, acierto = false;
-bool juego1Ganado;
+bool juego1Ganado,juego1Perdido;
+int puntosJuego1;
+int vidasJuego1 = 3;
 
 // Variables para juego 2
 bool juego2, juego2Ganado;
@@ -80,6 +82,11 @@ void aceleraCubos(){
       cubos.pop();
       cantResta++;
       fallo = true;
+      acierto = false;
+      vidasJuego1--;
+      if (vidasJuego1 == 0) {
+        juego1Perdido = true;
+      }
     }
     else{
       aux.x -= velocidadCubo;
@@ -242,13 +249,15 @@ void initRendering()
 
 // Timer para que los objetos roten
 static void timer(int i){
+  angulo += 10;
+  
   if (jugando and juego1 and !juego2) {
     if (i ==2) {
       Cubo aux;
       aux.x = ancho;
       do{
         aux.tecla = rand()%26 + 97;
-      }while (aux.tecla == 'j');
+      }while (aux.tecla == 'j' or aux.tecla == 'r' or aux.tecla == 'p');
       cubos.push(aux);
       cantCubos++;
       vueltas = 0;
@@ -269,7 +278,6 @@ static void timer(int i){
     }
   }
   else{
-    angulo += 10;
 
     // Variables para mover los objetos en el juego 2
     if(juego2 and auxJuego2 == 0 and !mostrandoTip and !pausado){
@@ -306,7 +314,7 @@ static void manzana(){
 
 // Objeto 3D
 static void pesa(){
-    glmDraw(&model[1], GLM_COLOR|GLM_FLAT);
+    glmDraw(&model[1], GLM_TEXTURE|GLM_FLAT);
 }
 
 // Objeto 3D
@@ -430,18 +438,18 @@ static void dibujaBaseRegresar(string letreroDesplegar){
 static void cargarImagenFondo(int indice){
   // Background Image Texture
   glPushMatrix();
-      glTranslatef(-300,-300,-45);
+      glTranslatef(-ancho/2.0,-largo/2.0,-100);
       glPointSize(1);
       glLineWidth(3);
       glBindTexture(GL_TEXTURE_2D, texName[indice]);
       glBegin(GL_QUADS);
       glColor4ub(255, 255, 255,255);       // Color
       glTexCoord2f(1.0f, 0.0f);
-      glVertex2f(600, 0);                 // v0
+      glVertex2f(ancho, 0);                 // v0
       glTexCoord2f(1.0f, 1.0f);
-      glVertex2f(600, 600);               // v1
+      glVertex2f(ancho, largo);               // v1
       glTexCoord2f(0.0f, 1.0f);
-      glVertex2f(0, 600);                 // v2
+      glVertex2f(0, largo);                 // v2
       glTexCoord2f(0.0f, 0.0f);
       glVertex2f(0, 0);                   // v3
       glEnd();
@@ -540,8 +548,57 @@ static void pantallaJuego1(){
   cargarImagenFondo(5);
   // Dibuja base regresar
   dibujaBaseRegresar("J - Menu");
-
+  
   glColor3f(0, 0, 0);
+  char puntos[10];
+  sprintf(puntos, "%d",puntosJuego1);
+  glColor3f(0, 0, 0);
+  glRasterPos2i(-ancho/2 + 30, largo/2-40);
+  for (GLint k = 0; puntos[k]!='\0'; k++)
+  {
+    glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, puntos[k]);
+  }
+  
+  int xPos = -50;
+  for (int i = 0; i<vidasJuego1; i++) {
+    glPushMatrix();
+      glTranslatef(xPos, largo/2-50, -25);
+      glRotatef(angulo, 1, 1, 1);
+      glScalef(20,20,20);
+      pesa();
+    glPopMatrix();
+    xPos+=50;
+  }
+  
+  Cubo aux;
+  for (int i = 0; i<cantCubos; i++) {
+    glColor4ub(0, 0, 0,0);       // Color
+    aux = cubos.front();
+    //glRasterPos2f(aux.x, (-largo/2.0)+anchoCubo/2.0+20);
+    glPushMatrix();
+      glTranslatef(aux.x, (-largo/2.0)+anchoCubo/2.0+20, -45);
+      glRotatef(angulo,0,1,0);
+      //glScalef(0.8,1,1);
+      glColor3f(0.098,0.098,0.439);
+        glPushMatrix();
+        glTranslatef(0,-20,-1);
+        glScalef(20,20,5);
+        glutSolidDodecahedron();
+      glPopMatrix();
+      glColor3f(0-117,0.5647,1);
+      glPushMatrix();
+        glScalef(20,20,5);
+        glutSolidDodecahedron();
+      glPopMatrix();
+      glTranslatef(0,0,20);
+      glColor3f(0, 0, 0);
+      glRasterPos2f(0, 0);
+      glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, aux.tecla);
+    glPopMatrix();
+    cubos.pop();
+    cubos.push(aux);
+  }
+  
   if (fallo) {
     glColor3b(255, 0, 0);
     glPushMatrix();
@@ -559,13 +616,13 @@ static void pantallaJuego1(){
   else{
     glPushMatrix();
     glBindTexture(GL_TEXTURE_2D, texName[4]);
-        glTranslatef(0, -largo/2.0+anchoCubo/2.0+20, -45);
+        glTranslatef(0, -largo/2.0+anchoCubo/2.0+20, -80);
         glutWireCube(anchoCubo);
     glPopMatrix();
 
     // Puse un QUADS en lugar, pero no se si esto sea lo mejor por lo del cubo que quieres manejar
     glPushMatrix();
-        glTranslatef(-50, -largo/2.0+anchoCubo/2.0-30, 0);
+        glTranslatef(-50, -largo/2.0+anchoCubo/2.0-30, -80);
         glBindTexture(GL_TEXTURE_2D, texName[4]);
         glBegin(GL_QUADS);
             glColor4ub(255, 255, 255,255);       // Color
@@ -581,19 +638,6 @@ static void pantallaJuego1(){
     glPopMatrix();
   }
 
-  Cubo aux;
-  for (int i = 0; i<cantCubos; i++) {
-    glColor4ub(0, 0, 0,0);       // Color
-    aux = cubos.front();
-    glRasterPos2f(aux.x, (-largo/2.0)+anchoCubo/2.0+20);
-    glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, aux.tecla);
-    glPushMatrix();
-    glTranslatef(aux.x, (-largo/2.0)+anchoCubo/2.0+20, -45);
-    glutWireCube(anchoCubo);
-    glPopMatrix();
-    cubos.pop();
-    cubos.push(aux);
-  }
   acierto = false;
   fallo = false;
 }
@@ -753,6 +797,11 @@ void validarPresionado(char theKey){
     if (cubos.front().x-(anchoCubo/2.0) < anchoCubo/2.0) {
       if (cubos.front().tecla == theKey) {
         acierto = true;
+        fallo = false;
+        puntosJuego1+=100;
+        if (puntosJuego1 >= 1000) {
+          juego1Ganado = true;
+        }
         cubos.pop();
         cantCubos--;
       }
@@ -762,14 +811,21 @@ void validarPresionado(char theKey){
 
 // Toma la ubicaci�n del proyecto
 void getParentPath(){
-  for (int i = fullPath.length()-1; i>=0 && fullPath[i] != '\\'; i--) {
+  //Ana
+//  for (int i = fullPath.length()-1; i>=0 && fullPath[i] != '\\'; i--) {
+//    fullPath.erase(i,1);
+//  }
+  //Iker
+  for (int i = fullPath.length()-1; i>=0 && fullPath[i] != '/'; i--) {
     fullPath.erase(i,1);
   }
 }
 
 // Reshape
-void reshape(int ancho, int largo)
+void reshape(int anchop, int largop)
 {
+  ancho = anchop;
+  largo = largop;
   glViewport(0.0,0.0,(GLdouble) ancho,(GLdouble)  largo);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
@@ -1053,18 +1109,22 @@ void myKeyboard(unsigned char theKey, int mouseX, int mouseY)
         contar = false;
 
         inicio = true;
-        pausado = comenzado = reiniciar = terminado = jugando = false;
+        pausado = comenzado = reiniciar = terminado = false;
         autores = instrucciones = historia = mundos = false;
 
         // Variables para juego 1
-        juego1 = fallo = acierto = juego1Ganado = false;
+        fallo = acierto = juego1Ganado = false;
 
         // Variables para juego 2
-        juego2 = juego2Ganado = mostrandoTip = false;
+        juego2Ganado = mostrandoTip = false;
         contJuego2 = 0, auxJuego2 = 0;
         objJ2Cont1 = objJ2Cont2 = objJ2Cont3 = objJ2Cont4 = objJ2Cont5 = objJ2Cont6 = 0;
         objGanados = 0;
         numTip = 1;
+      
+      while (cubos.size()!=0) {
+        cubos.pop();
+      }
 
         angulo=-1;
 

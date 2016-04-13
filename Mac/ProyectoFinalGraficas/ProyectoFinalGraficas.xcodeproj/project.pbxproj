@@ -9,15 +9,15 @@
 /* Begin PBXBuildFile section */
 		1380D8C71C97C3F5002237FC /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1380D8C61C97C3F5002237FC /* OpenGL.framework */; };
 		1380D8C91C97C3FA002237FC /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1380D8C81C97C3FA002237FC /* GLUT.framework */; };
-		13B0CB5C1C97C3B2008202C8 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 13B0CB5B1C97C3B2008202C8 /* main.cpp */; };
-		13B0CB711C97C3B2008202C8 /* glm_util.c in Sources */ = {isa = PBXBuildFile; fileRef = 13B0CB631C97C3B2008202C8 /* glm_util.c */; };
-		13B0CB721C97C3B2008202C8 /* glm.c in Sources */ = {isa = PBXBuildFile; fileRef = 13B0CB641C97C3B2008202C8 /* glm.c */; };
-		13B0CB731C97C3B2008202C8 /* glmimg_devil.c in Sources */ = {isa = PBXBuildFile; fileRef = 13B0CB661C97C3B2008202C8 /* glmimg_devil.c */; };
-		13B0CB741C97C3B2008202C8 /* glmimg_jpg.c in Sources */ = {isa = PBXBuildFile; fileRef = 13B0CB671C97C3B2008202C8 /* glmimg_jpg.c */; };
-		13B0CB751C97C3B2008202C8 /* glmimg_png.c in Sources */ = {isa = PBXBuildFile; fileRef = 13B0CB681C97C3B2008202C8 /* glmimg_png.c */; };
-		13B0CB761C97C3B2008202C8 /* glmimg_sdl.c in Sources */ = {isa = PBXBuildFile; fileRef = 13B0CB691C97C3B2008202C8 /* glmimg_sdl.c */; };
-		13B0CB771C97C3B2008202C8 /* glmimg_sim.c in Sources */ = {isa = PBXBuildFile; fileRef = 13B0CB6A1C97C3B2008202C8 /* glmimg_sim.c */; };
-		13B0CB781C97C3B2008202C8 /* glmimg.c in Sources */ = {isa = PBXBuildFile; fileRef = 13B0CB6B1C97C3B2008202C8 /* glmimg.c */; };
+		13D9FC1B1CB6D6FF00AC972F /* glm_util.c in Sources */ = {isa = PBXBuildFile; fileRef = 13D9FC091CB6D6FF00AC972F /* glm_util.c */; };
+		13D9FC1C1CB6D6FF00AC972F /* glm.c in Sources */ = {isa = PBXBuildFile; fileRef = 13D9FC0A1CB6D6FF00AC972F /* glm.c */; };
+		13D9FC1D1CB6D6FF00AC972F /* glmimg_devil.c in Sources */ = {isa = PBXBuildFile; fileRef = 13D9FC0C1CB6D6FF00AC972F /* glmimg_devil.c */; };
+		13D9FC1E1CB6D6FF00AC972F /* glmimg_jpg.c in Sources */ = {isa = PBXBuildFile; fileRef = 13D9FC0D1CB6D6FF00AC972F /* glmimg_jpg.c */; };
+		13D9FC1F1CB6D6FF00AC972F /* glmimg_png.c in Sources */ = {isa = PBXBuildFile; fileRef = 13D9FC0E1CB6D6FF00AC972F /* glmimg_png.c */; };
+		13D9FC201CB6D6FF00AC972F /* glmimg_sdl.c in Sources */ = {isa = PBXBuildFile; fileRef = 13D9FC0F1CB6D6FF00AC972F /* glmimg_sdl.c */; };
+		13D9FC211CB6D6FF00AC972F /* glmimg_sim.c in Sources */ = {isa = PBXBuildFile; fileRef = 13D9FC101CB6D6FF00AC972F /* glmimg_sim.c */; };
+		13D9FC221CB6D6FF00AC972F /* glmimg.c in Sources */ = {isa = PBXBuildFile; fileRef = 13D9FC111CB6D6FF00AC972F /* glmimg.c */; };
+		13D9FC231CB6D6FF00AC972F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 13D9FC161CB6D6FF00AC972F /* main.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -36,22 +36,25 @@
 		1380D8C61C97C3F5002237FC /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		1380D8C81C97C3FA002237FC /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		13B0CB581C97C3B2008202C8 /* ProyectoFinalGraficas */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ProyectoFinalGraficas; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B0CB5B1C97C3B2008202C8 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		13B0CB621C97C3B2008202C8 /* bin */ = {isa = PBXFileReference; lastKnownFileType = folder; path = bin; sourceTree = "<group>"; };
-		13B0CB631C97C3B2008202C8 /* glm_util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glm_util.c; sourceTree = "<group>"; };
-		13B0CB641C97C3B2008202C8 /* glm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glm.c; sourceTree = "<group>"; };
-		13B0CB651C97C3B2008202C8 /* glm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glm.h; sourceTree = "<group>"; };
-		13B0CB661C97C3B2008202C8 /* glmimg_devil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glmimg_devil.c; sourceTree = "<group>"; };
-		13B0CB671C97C3B2008202C8 /* glmimg_jpg.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glmimg_jpg.c; sourceTree = "<group>"; };
-		13B0CB681C97C3B2008202C8 /* glmimg_png.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glmimg_png.c; sourceTree = "<group>"; };
-		13B0CB691C97C3B2008202C8 /* glmimg_sdl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glmimg_sdl.c; sourceTree = "<group>"; };
-		13B0CB6A1C97C3B2008202C8 /* glmimg_sim.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glmimg_sim.c; sourceTree = "<group>"; };
-		13B0CB6B1C97C3B2008202C8 /* glmimg.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glmimg.c; sourceTree = "<group>"; };
-		13B0CB6C1C97C3B2008202C8 /* glmint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glmint.h; sourceTree = "<group>"; };
-		13B0CB6D1C97C3B2008202C8 /* imageBMP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imageBMP.h; sourceTree = "<group>"; };
-		13B0CB6E1C97C3B2008202C8 /* imageloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imageloader.h; sourceTree = "<group>"; };
-		13B0CB701C97C3B2008202C8 /* obj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = obj; sourceTree = "<group>"; };
-		13F49AEC1CABAA1900FF04EC /* imagenes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = imagenes; sourceTree = "<group>"; };
+		13D9FC081CB6D6FF00AC972F /* bin */ = {isa = PBXFileReference; lastKnownFileType = folder; path = bin; sourceTree = "<group>"; };
+		13D9FC091CB6D6FF00AC972F /* glm_util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glm_util.c; sourceTree = "<group>"; };
+		13D9FC0A1CB6D6FF00AC972F /* glm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glm.c; sourceTree = "<group>"; };
+		13D9FC0B1CB6D6FF00AC972F /* glm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glm.h; sourceTree = "<group>"; };
+		13D9FC0C1CB6D6FF00AC972F /* glmimg_devil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glmimg_devil.c; sourceTree = "<group>"; };
+		13D9FC0D1CB6D6FF00AC972F /* glmimg_jpg.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glmimg_jpg.c; sourceTree = "<group>"; };
+		13D9FC0E1CB6D6FF00AC972F /* glmimg_png.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glmimg_png.c; sourceTree = "<group>"; };
+		13D9FC0F1CB6D6FF00AC972F /* glmimg_sdl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glmimg_sdl.c; sourceTree = "<group>"; };
+		13D9FC101CB6D6FF00AC972F /* glmimg_sim.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glmimg_sim.c; sourceTree = "<group>"; };
+		13D9FC111CB6D6FF00AC972F /* glmimg.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glmimg.c; sourceTree = "<group>"; };
+		13D9FC121CB6D6FF00AC972F /* glmint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glmint.h; sourceTree = "<group>"; };
+		13D9FC131CB6D6FF00AC972F /* imageBMP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imageBMP.h; sourceTree = "<group>"; };
+		13D9FC141CB6D6FF00AC972F /* imageloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imageloader.h; sourceTree = "<group>"; };
+		13D9FC151CB6D6FF00AC972F /* imagenes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = imagenes; sourceTree = "<group>"; };
+		13D9FC161CB6D6FF00AC972F /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		13D9FC171CB6D6FF00AC972F /* MundoDeVerminara3D.cbp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MundoDeVerminara3D.cbp; sourceTree = "<group>"; };
+		13D9FC181CB6D6FF00AC972F /* MundoDeVerminara3D.depend */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MundoDeVerminara3D.depend; sourceTree = "<group>"; };
+		13D9FC191CB6D6FF00AC972F /* MundoDeVerminara3D.layout */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MundoDeVerminara3D.layout; sourceTree = "<group>"; };
+		13D9FC1A1CB6D6FF00AC972F /* obj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = obj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,22 +91,25 @@
 		13B0CB5A1C97C3B2008202C8 /* ProyectoFinalGraficas */ = {
 			isa = PBXGroup;
 			children = (
-				13B0CB621C97C3B2008202C8 /* bin */,
-				13B0CB631C97C3B2008202C8 /* glm_util.c */,
-				13B0CB641C97C3B2008202C8 /* glm.c */,
-				13B0CB651C97C3B2008202C8 /* glm.h */,
-				13B0CB661C97C3B2008202C8 /* glmimg_devil.c */,
-				13B0CB671C97C3B2008202C8 /* glmimg_jpg.c */,
-				13B0CB681C97C3B2008202C8 /* glmimg_png.c */,
-				13B0CB691C97C3B2008202C8 /* glmimg_sdl.c */,
-				13B0CB6A1C97C3B2008202C8 /* glmimg_sim.c */,
-				13B0CB6B1C97C3B2008202C8 /* glmimg.c */,
-				13B0CB6C1C97C3B2008202C8 /* glmint.h */,
-				13B0CB6D1C97C3B2008202C8 /* imageBMP.h */,
-				13B0CB6E1C97C3B2008202C8 /* imageloader.h */,
-				13F49AEC1CABAA1900FF04EC /* imagenes */,
-				13B0CB701C97C3B2008202C8 /* obj */,
-				13B0CB5B1C97C3B2008202C8 /* main.cpp */,
+				13D9FC081CB6D6FF00AC972F /* bin */,
+				13D9FC091CB6D6FF00AC972F /* glm_util.c */,
+				13D9FC0A1CB6D6FF00AC972F /* glm.c */,
+				13D9FC0B1CB6D6FF00AC972F /* glm.h */,
+				13D9FC0C1CB6D6FF00AC972F /* glmimg_devil.c */,
+				13D9FC0D1CB6D6FF00AC972F /* glmimg_jpg.c */,
+				13D9FC0E1CB6D6FF00AC972F /* glmimg_png.c */,
+				13D9FC0F1CB6D6FF00AC972F /* glmimg_sdl.c */,
+				13D9FC101CB6D6FF00AC972F /* glmimg_sim.c */,
+				13D9FC111CB6D6FF00AC972F /* glmimg.c */,
+				13D9FC121CB6D6FF00AC972F /* glmint.h */,
+				13D9FC131CB6D6FF00AC972F /* imageBMP.h */,
+				13D9FC141CB6D6FF00AC972F /* imageloader.h */,
+				13D9FC151CB6D6FF00AC972F /* imagenes */,
+				13D9FC161CB6D6FF00AC972F /* main.cpp */,
+				13D9FC171CB6D6FF00AC972F /* MundoDeVerminara3D.cbp */,
+				13D9FC181CB6D6FF00AC972F /* MundoDeVerminara3D.depend */,
+				13D9FC191CB6D6FF00AC972F /* MundoDeVerminara3D.layout */,
+				13D9FC1A1CB6D6FF00AC972F /* obj */,
 			);
 			path = ProyectoFinalGraficas;
 			sourceTree = "<group>";
@@ -164,15 +170,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13B0CB721C97C3B2008202C8 /* glm.c in Sources */,
-				13B0CB711C97C3B2008202C8 /* glm_util.c in Sources */,
-				13B0CB781C97C3B2008202C8 /* glmimg.c in Sources */,
-				13B0CB771C97C3B2008202C8 /* glmimg_sim.c in Sources */,
-				13B0CB751C97C3B2008202C8 /* glmimg_png.c in Sources */,
-				13B0CB5C1C97C3B2008202C8 /* main.cpp in Sources */,
-				13B0CB761C97C3B2008202C8 /* glmimg_sdl.c in Sources */,
-				13B0CB741C97C3B2008202C8 /* glmimg_jpg.c in Sources */,
-				13B0CB731C97C3B2008202C8 /* glmimg_devil.c in Sources */,
+				13D9FC1D1CB6D6FF00AC972F /* glmimg_devil.c in Sources */,
+				13D9FC1F1CB6D6FF00AC972F /* glmimg_png.c in Sources */,
+				13D9FC231CB6D6FF00AC972F /* main.cpp in Sources */,
+				13D9FC211CB6D6FF00AC972F /* glmimg_sim.c in Sources */,
+				13D9FC201CB6D6FF00AC972F /* glmimg_sdl.c in Sources */,
+				13D9FC1C1CB6D6FF00AC972F /* glm.c in Sources */,
+				13D9FC1E1CB6D6FF00AC972F /* glmimg_jpg.c in Sources */,
+				13D9FC221CB6D6FF00AC972F /* glmimg.c in Sources */,
+				13D9FC1B1CB6D6FF00AC972F /* glm_util.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
