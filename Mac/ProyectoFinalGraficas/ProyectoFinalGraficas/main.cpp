@@ -242,6 +242,20 @@ void initRendering()
     sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/MundosResized.bmp");                  // 30
     image = loadBMP(ruta);
     loadTexture(image,i++);
+  
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/Juego1AcertasteResized.bmp");          // 31
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/Juego1FallasteResized.bmp");          // 32
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+  
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/Juego1GanadoResized.bmp");          // 33
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/Juego1PerdisteResized.bmp");          // 34
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
 
     delete image;
 }
@@ -581,106 +595,105 @@ void lucesMaterial(int i)
 
 static void pantallaJuego1(){
   // Cargar la imagen textura del fondo
-  cargarImagenFondo(5);
-  // Dibuja base regresar
-  dibujaBaseRegresar("J - Menu");
-  
-  glColor3f(0, 0, 0);
-  char puntos[10];
-  sprintf(puntos, "%d",puntosJuego1);
-  glColor3f(0, 0, 0);
-  glRasterPos2i(-ancho/2 + 30, largo/2-40);
-  for (GLint k = 0; puntos[k]!='\0'; k++)
-  {
-    glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, puntos[k]);
+  if (juego1Ganado) {
+    cargarImagenFondo(33);
+    dibujaBaseRegresar("R - Reiniciar");
   }
-  glEnable(GL_LIGHTING);
-  glEnable(GL_LIGHT0);
-  lucesMaterial(0);
-  int xPos = -50;
-  for (int i = 0; i<vidasJuego1; i++) {
-    glPushMatrix();
-      glTranslatef(xPos, largo/2-50, -25);
-      glRotatef(angulo, 1, 1, 1);
-      glScalef(20,20,20);
-      pesa();
-    glPopMatrix();
-    xPos+=50;
-  }
-  glDisable(GL_LIGHT0);
-  glDisable(GL_LIGHTING);
-  
-  Cubo aux;
-  for (int i = 0; i<cantCubos; i++) {
-    lucesMaterial(1);
-    glColor4ub(0, 0, 0,0);       // Color
-    aux = cubos.front();
-    //glRasterPos2f(aux.x, (-largo/2.0)+anchoCubo/2.0+20);
-    glPushMatrix();
-      glTranslatef(aux.x, (-largo/2.0)+anchoCubo/2.0+20, -45);
-      glRotatef(angulo,0,1,0);
-      //glScalef(0.8,1,1);
-      glColor3f(0.098,0.098,0.439);
-        glPushMatrix();
-        glTranslatef(0,-20,-1);
-        glScalef(20,20,5);
-        glutSolidDodecahedron();
-      glPopMatrix();
-      glColor3f(0-117,0.5647,1);
-      glPushMatrix();
-        glScalef(20,20,5);
-        glutSolidDodecahedron();
-      glPopMatrix();
-      glTranslatef(0,0,20);
-      glColor3f(0, 0, 0);
-      glRasterPos2f(0, 0);
-      glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, aux.tecla);
-    glPopMatrix();
-    cubos.pop();
-    cubos.push(aux);
-  }
-  
-  if (fallo) {
-    glColor3b(255, 0, 0);
-    glPushMatrix();
-    glTranslatef(0, -largo/2.0+anchoCubo/2.0+20, -45);
-    glutSolidCube(anchoCubo);
-    glPopMatrix();
-  }
-  else if (acierto){
-    glColor3b(0, 255, 0);
-    glPushMatrix();
-    glTranslatef(0, -largo/2.0+anchoCubo/2.0+20, -45);
-    glutSolidSphere(anchoCubo/2.0, 20, 20);
-    glPopMatrix();
+  else if(juego1Perdido){
+    cargarImagenFondo(34);
+    dibujaBaseRegresar("R - Reiniciar");
   }
   else{
+    if (acierto) {
+      cargarImagenFondo(31);
+    }
+    else if(fallo){
+      cargarImagenFondo(32);
+    }
+    else{
+      cargarImagenFondo(5);
+    }
+    // Dibuja base regresar
+    dibujaBaseRegresar("J - Menu");
+    
+    glColor3f(0, 0, 0);
+    char puntos[10];
+    sprintf(puntos, "%d",puntosJuego1);
+    glColor3f(0, 0, 0);
+    glRasterPos2i(-ancho/2 + 30, largo/4);
+    for (GLint k = 0; puntos[k]!='\0'; k++)
+    {
+      glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, puntos[k]);
+    }
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+    lucesMaterial(0);
+    int xPos = -50;
+    for (int i = 0; i<vidasJuego1; i++) {
+      glPushMatrix();
+        glTranslatef(xPos, largo/2-50, -25);
+        glRotatef(angulo, 1, 1, 1);
+        glScalef(20,20,20);
+        pesa();
+      glPopMatrix();
+      xPos+=50;
+    }
+    glDisable(GL_LIGHT0);
+    glDisable(GL_LIGHTING);
+    
+    Cubo aux;
+    for (int i = 0; i<cantCubos; i++) {
+      lucesMaterial(1);
+      glColor4ub(0, 0, 0,0);       // Color
+      aux = cubos.front();
+      //glRasterPos2f(aux.x, (-largo/2.0)+anchoCubo/2.0+20);
+      glPushMatrix();
+        glTranslatef(aux.x, (-largo/2.0)+anchoCubo/2.0+20, -45);
+        glRotatef(angulo,0,1,0);
+        //glScalef(0.8,1,1);
+        glColor3f(0.098,0.098,0.439);
+        glPushMatrix();
+          glTranslatef(0,-20,-1);
+          glScalef(20,20,5);
+          glutSolidDodecahedron();
+        glPopMatrix();
+        glColor3f(0-117,0.5647,1);
+        glPushMatrix();
+          glScalef(20,20,5);
+          glutSolidDodecahedron();
+        glPopMatrix();
+        glTranslatef(0,0,20);
+        glColor3f(0, 0, 0);
+        glRasterPos2f(0, 0);
+        glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, aux.tecla);
+      glPopMatrix();
+      cubos.pop();
+      cubos.push(aux);
+    }
     glPushMatrix();
-    glBindTexture(GL_TEXTURE_2D, texName[4]);
-        glTranslatef(0, -largo/2.0+anchoCubo/2.0+20, -80);
-        glutWireCube(anchoCubo);
+      glBindTexture(GL_TEXTURE_2D, texName[4]);
+      glTranslatef(0, -largo/2.0+anchoCubo/2.0+20, -80);
+      glutWireCube(anchoCubo);
     glPopMatrix();
-
+    
     // Puse un QUADS en lugar, pero no se si esto sea lo mejor por lo del cubo que quieres manejar
     glPushMatrix();
-        glTranslatef(-50, -largo/2.0+anchoCubo/2.0-30, -80);
-        glBindTexture(GL_TEXTURE_2D, texName[4]);
-        glBegin(GL_QUADS);
-            glColor4ub(255, 255, 255,255);       // Color
-            glTexCoord2f(1.0f, 0.0f);
-            glVertex2f(100, 0);                 // v0
-            glTexCoord2f(1.0f, 1.0f);
-            glVertex2f(100, 100);               // v1
-            glTexCoord2f(0.0f, 1.0f);
-            glVertex2f(0, 100);                 // v2
-            glTexCoord2f(0.0f, 0.0f);
-            glVertex2f(0, 0);                   // v3
-        glEnd();
+      glTranslatef(-50, -largo/2.0+anchoCubo/2.0-30, -80);
+      glBindTexture(GL_TEXTURE_2D, texName[4]);
+      glBegin(GL_QUADS);
+        glColor4ub(255, 255, 255,255);       // Color
+        glTexCoord2f(1.0f, 0.0f);
+        glVertex2f(100, 0);                 // v0
+        glTexCoord2f(1.0f, 1.0f);
+        glVertex2f(100, 100);               // v1
+        glTexCoord2f(0.0f, 1.0f);
+        glVertex2f(0, 100);                 // v2
+        glTexCoord2f(0.0f, 0.0f);
+        glVertex2f(0, 0);                   // v3
+      glEnd();
     glPopMatrix();
   }
-
-  acierto = false;
-  fallo = false;
+  
 }
 
 // Juego 2
