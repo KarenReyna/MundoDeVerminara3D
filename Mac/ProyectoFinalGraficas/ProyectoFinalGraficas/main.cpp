@@ -251,7 +251,7 @@ void initRendering()
 static void timer(int i){
   angulo += 10;
   
-  if (jugando and juego1 and !juego2) {
+  if (jugando and juego1 and !juego2 and !juego1Perdido and !juego1Ganado) {
     if (i ==2) {
       Cubo aux;
       aux.x = ancho;
@@ -543,6 +543,42 @@ static void pantallaJuegos(){
     dibujaBaseRegresar("J - Menu");
 }
 
+float ambiente[][4]={
+  {0.19225, 0.19225, 0.19225, 1.0}//plata
+};
+
+float difuso[][4]={
+  {0.50754, 0.50754, 0.50754, 1.0},//plata
+  {0.098, 0.098, 0.439,1},
+  {0-117, 0.5647,1,1},
+  {0, 0, 0, 1}
+};
+
+float especular[][4]={
+  {0.508273, 0.508273, 0.508273,1.0}//plata
+};
+
+float brillo[]={
+  0.4f
+};
+
+void lucesMaterial(int i)
+{
+  //Asigna los apropiados materiales a las superficies
+  glMaterialfv(GL_FRONT,GL_AMBIENT,ambiente[i]);
+  glMaterialfv(GL_FRONT,GL_DIFFUSE,difuso[i]);
+  glMaterialfv(GL_FRONT,GL_SPECULAR,especular[i]);
+  glMaterialf(GL_FRONT,GL_SHININESS,brillo[i]*128.0);
+  // asigna la apropiada fuente de luz
+  GLfloat lightIntensity[] = {1.0f, 1.0f, 1.0f, 1.0f};
+  GLfloat light_position[] = {2.0f, 2.0f, 3.0f, 0.0f};
+  glLightfv(GL_LIGHT0, GL_POSITION,light_position);
+  glLightfv(GL_LIGHT0, GL_DIFFUSE,lightIntensity);
+  //asigna la c√°mara
+  //comienza el dibujo
+  
+}
+
 static void pantallaJuego1(){
   // Cargar la imagen textura del fondo
   cargarImagenFondo(5);
@@ -558,7 +594,9 @@ static void pantallaJuego1(){
   {
     glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, puntos[k]);
   }
-  
+  glEnable(GL_LIGHTING);
+  glEnable(GL_LIGHT0);
+  lucesMaterial(0);
   int xPos = -50;
   for (int i = 0; i<vidasJuego1; i++) {
     glPushMatrix();
@@ -569,9 +607,12 @@ static void pantallaJuego1(){
     glPopMatrix();
     xPos+=50;
   }
+  glDisable(GL_LIGHT0);
+  glDisable(GL_LIGHTING);
   
   Cubo aux;
   for (int i = 0; i<cantCubos; i++) {
+    lucesMaterial(1);
     glColor4ub(0, 0, 0,0);       // Color
     aux = cubos.front();
     //glRasterPos2f(aux.x, (-largo/2.0)+anchoCubo/2.0+20);
@@ -826,6 +867,7 @@ void reshape(int anchop, int largop)
 {
   ancho = anchop;
   largo = largop;
+  velocidadCubo = 0.0084 * ancho;
   glViewport(0.0,0.0,(GLdouble) ancho,(GLdouble)  largo);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
@@ -1101,8 +1143,6 @@ void myKeyboard(unsigned char theKey, int mouseX, int mouseY)
     case 'r':
     case 'R':
         // Asignar valores default
-        ancho = 600;
-        largo = 600;
         iSegundos = 0;
         juegoInicio = false;
         ayuda = true;
@@ -1122,14 +1162,18 @@ void myKeyboard(unsigned char theKey, int mouseX, int mouseY)
         objGanados = 0;
         numTip = 1;
       
-      while (cubos.size()!=0) {
-        cubos.pop();
-      }
-
+        while (cubos.size()!=0) {
+          cubos.pop();
+        }
+      
+        juego1Ganado = juego1Perdido = false;
+        puntosJuego1 = 0;
+        vidasJuego1 = 3;
+      
         angulo=-1;
 
         anchoCubo = 100;
-        velocidadCubo = 5;
+        velocidadCubo = 0.0084 * ancho;
         vueltas=0;
         cantCubos=0;
         break;
