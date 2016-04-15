@@ -23,6 +23,7 @@
 #include "imageBMP.h"
 #include <assert.h>
 #include <queue>
+#include <MMSystem.h>       // Sound
 
 using namespace std;
 
@@ -242,14 +243,14 @@ void initRendering()
     sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/MundosResized.bmp");                  // 30
     image = loadBMP(ruta);
     loadTexture(image,i++);
-  
+
     sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/Juego1AcertasteResized.bmp");          // 31
     image = loadBMP(ruta);
     loadTexture(image,i++);
     sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/Juego1FallasteResized.bmp");          // 32
     image = loadBMP(ruta);
     loadTexture(image,i++);
-  
+
     sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/Juego1GanadoResized.bmp");          // 33
     image = loadBMP(ruta);
     loadTexture(image,i++);
@@ -264,7 +265,7 @@ void initRendering()
 // Timer para que los objetos roten
 static void timer(int i){
   angulo += 10;
-  
+
   if (jugando and juego1 and !juego2 and !juego1Perdido and !juego1Ganado) {
     if (i ==2) {
       Cubo aux;
@@ -590,7 +591,7 @@ void lucesMaterial(int i)
   glLightfv(GL_LIGHT0, GL_DIFFUSE,lightIntensity);
   //asigna la c√°mara
   //comienza el dibujo
-  
+
 }
 
 static void pantallaJuego1(){
@@ -615,7 +616,7 @@ static void pantallaJuego1(){
     }
     // Dibuja base regresar
     dibujaBaseRegresar("J - Menu");
-    
+
     glColor3f(0, 0, 0);
     char puntos[10];
     sprintf(puntos, "%d",puntosJuego1);
@@ -640,7 +641,7 @@ static void pantallaJuego1(){
     }
     glDisable(GL_LIGHT0);
     glDisable(GL_LIGHTING);
-    
+
     Cubo aux;
     for (int i = 0; i<cantCubos; i++) {
       lucesMaterial(1);
@@ -675,7 +676,7 @@ static void pantallaJuego1(){
       glTranslatef(0, -largo/2.0+anchoCubo/2.0+20, -80);
       glutWireCube(anchoCubo);
     glPopMatrix();
-    
+
     // Puse un QUADS en lugar, pero no se si esto sea lo mejor por lo del cubo que quieres manejar
     glPushMatrix();
       glTranslatef(-50, -largo/2.0+anchoCubo/2.0-30, -80);
@@ -693,7 +694,7 @@ static void pantallaJuego1(){
       glEnd();
     glPopMatrix();
   }
-  
+
 }
 
 // Juego 2
@@ -773,8 +774,15 @@ static void pantallaJuego2(){
 
     // Mueve el objeto: cama
     glPushMatrix();
-        glTranslatef(210, movY + contJuego2, -25);
-        glRotatef(angulo, 1, 1, 1);
+        if(objJ2Cont6 < 3){
+            glTranslatef(210, movY + contJuego2, -25);
+            glRotatef(angulo, 1, 1, 1);
+        }
+        else if(objJ2Cont6 >=3){
+            glTranslatef(210, movY, -25);
+            glRotatef(-90, 0, 0, 1);
+            glRotatef(90, 1, 0, 0);
+        }
         glScalef(20,20,20);
         cama();
     glPopMatrix();
@@ -866,13 +874,13 @@ void validarPresionado(char theKey){
 // Toma la ubicaci�n del proyecto
 void getParentPath(){
   //Ana
-//  for (int i = fullPath.length()-1; i>=0 && fullPath[i] != '\\'; i--) {
-//    fullPath.erase(i,1);
-//  }
-  //Iker
-  for (int i = fullPath.length()-1; i>=0 && fullPath[i] != '/'; i--) {
+  for (int i = fullPath.length()-1; i>=0 && fullPath[i] != '\\'; i--) {
     fullPath.erase(i,1);
   }
+  //Iker
+  /*for (int i = fullPath.length()-1; i>=0 && fullPath[i] != '/'; i--) {
+    fullPath.erase(i,1);
+  }*/
 }
 
 // Reshape
@@ -1064,12 +1072,10 @@ void init(){
     glmUnitize(&model[7]);
     glmVertexNormals(&model[7],90.0,GL_TRUE);
 
-  // Objetos 3D
-  // Ana
-  // // C:/Users/karen_000/Dropbox/6 Semestre/Gr�ficas/MundoDeVerminara3D/Windows/imagenes/beer/beer.obj
-  //string ruta = fullPath + "imagenes/hamburger/hamburger.obj";
-  // Iker
-  //string ruta = "/Users/ikerarbululozano/Google Drive/Noveno Semestre/Graficas Computacionales/MundoDeVerminara3D/Mac/ProyectoFinalGraficas/ProyectoFinalGraficas/imagenes/hamburger/hamburger.obj";
+    // Sonido
+    char  rutaSonido[100];
+    sprintf(rutaSonido,"%s%s", fullPath.c_str() , "musica/Ultralounge.wav");
+    PlaySound(TEXT(rutaSonido), NULL, SND_ASYNC | SND_FILENAME | SND_LOOP);
 }
 
 void myKeyboard(unsigned char theKey, int mouseX, int mouseY)
@@ -1174,15 +1180,14 @@ void myKeyboard(unsigned char theKey, int mouseX, int mouseY)
         objJ2Cont1 = objJ2Cont2 = objJ2Cont3 = objJ2Cont4 = objJ2Cont5 = objJ2Cont6 = 0;
         objGanados = 0;
         numTip = 1;
-      
+
         while (cubos.size()!=0) {
           cubos.pop();
         }
-      
+
         juego1Ganado = juego1Perdido = false;
         puntosJuego1 = 0;
         vidasJuego1 = 3;
-      
         angulo=-1;
 
         anchoCubo = 100;
@@ -1212,7 +1217,7 @@ void myKeyboard(unsigned char theKey, int mouseX, int mouseY)
             }
         }
         // Juego 2
-        else if(inicio and !historia and !pausado and !terminado and !autores and !instrucciones and jugando and !juego1 and objJ2Cont2 < 3 and !mostrandoTip){
+        else if(inicio and !historia and !pausado and !terminado and !autores and !instrucciones and jugando and !juego1 and !mostrandoTip){
             juego2 = !juego2;
         }
         break;
