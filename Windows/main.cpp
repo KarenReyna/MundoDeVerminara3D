@@ -244,6 +244,20 @@ void initRendering()
     image = loadBMP(ruta);
     loadTexture(image,i++);
 
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/Juego1AcertasteResized.bmp");          // 31
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/Juego1FallasteResized.bmp");          // 32
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/Juego1GanadoResized.bmp");          // 33
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+    sprintf(ruta,"%s%s", fullPath.c_str() , "imagenes/Juego1PerdisteResized.bmp");          // 34
+    image = loadBMP(ruta);
+    loadTexture(image,i++);
+
     delete image;
 }
 
@@ -252,7 +266,7 @@ void initRendering()
 static void timer(int i){
   angulo += 10;
 
-  if (jugando and juego1 and !juego2) {
+  if (jugando and juego1 and !juego2 and !juego1Perdido and !juego1Ganado) {
     if (i ==2) {
       Cubo aux;
       aux.x = ancho;
@@ -544,103 +558,143 @@ static void pantallaJuegos(){
     dibujaBaseRegresar("J - Menu");
 }
 
+float ambiente[][4]={
+  {0.19225, 0.19225, 0.19225, 1.0}//plata
+};
+
+float difuso[][4]={
+  {0.50754, 0.50754, 0.50754, 1.0},//plata
+  {0.098, 0.098, 0.439,1},
+  {0-117, 0.5647,1,1},
+  {0, 0, 0, 1}
+};
+
+float especular[][4]={
+  {0.508273, 0.508273, 0.508273,1.0}//plata
+};
+
+float brillo[]={
+  0.4f
+};
+
+void lucesMaterial(int i)
+{
+  //Asigna los apropiados materiales a las superficies
+  glMaterialfv(GL_FRONT,GL_AMBIENT,ambiente[i]);
+  glMaterialfv(GL_FRONT,GL_DIFFUSE,difuso[i]);
+  glMaterialfv(GL_FRONT,GL_SPECULAR,especular[i]);
+  glMaterialf(GL_FRONT,GL_SHININESS,brillo[i]*128.0);
+  // asigna la apropiada fuente de luz
+  GLfloat lightIntensity[] = {1.0f, 1.0f, 1.0f, 1.0f};
+  GLfloat light_position[] = {2.0f, 2.0f, 3.0f, 0.0f};
+  glLightfv(GL_LIGHT0, GL_POSITION,light_position);
+  glLightfv(GL_LIGHT0, GL_DIFFUSE,lightIntensity);
+  //asigna la c√°mara
+  //comienza el dibujo
+
+}
+
 static void pantallaJuego1(){
   // Cargar la imagen textura del fondo
-  cargarImagenFondo(5);
-  // Dibuja base regresar
-  dibujaBaseRegresar("J - Menu");
-
-  glColor3f(0, 0, 0);
-  char puntos[10];
-  sprintf(puntos, "%d",puntosJuego1);
-  glColor3f(0, 0, 0);
-  glRasterPos2i(-ancho/2 + 30, largo/2-40);
-  for (GLint k = 0; puntos[k]!='\0'; k++)
-  {
-    glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, puntos[k]);
+  if (juego1Ganado) {
+    cargarImagenFondo(33);
+    dibujaBaseRegresar("R - Reiniciar");
   }
-
-  int xPos = -50;
-  for (int i = 0; i<vidasJuego1; i++) {
-    glPushMatrix();
-      glTranslatef(xPos, largo/2-50, -25);
-      glRotatef(angulo, 1, 1, 1);
-      glScalef(20,20,20);
-      pesa();
-    glPopMatrix();
-    xPos+=50;
-  }
-
-  Cubo aux;
-  for (int i = 0; i<cantCubos; i++) {
-    glColor4ub(0, 0, 0,0);       // Color
-    aux = cubos.front();
-    //glRasterPos2f(aux.x, (-largo/2.0)+anchoCubo/2.0+20);
-    glPushMatrix();
-      glTranslatef(aux.x, (-largo/2.0)+anchoCubo/2.0+20, -45);
-      glRotatef(angulo,0,1,0);
-      //glScalef(0.8,1,1);
-      glColor3f(0.098,0.098,0.439);
-        glPushMatrix();
-        glTranslatef(0,-20,-1);
-        glScalef(20,20,5);
-        glutSolidDodecahedron();
-      glPopMatrix();
-      glColor3f(0-117,0.5647,1);
-      glPushMatrix();
-        glScalef(20,20,5);
-        glutSolidDodecahedron();
-      glPopMatrix();
-      glTranslatef(0,0,20);
-      glColor3f(0, 0, 0);
-      glRasterPos2f(0, 0);
-      glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, aux.tecla);
-    glPopMatrix();
-    cubos.pop();
-    cubos.push(aux);
-  }
-
-  if (fallo) {
-    glColor3b(255, 0, 0);
-    glPushMatrix();
-    glTranslatef(0, -largo/2.0+anchoCubo/2.0+20, -45);
-    glutSolidCube(anchoCubo);
-    glPopMatrix();
-  }
-  else if (acierto){
-    glColor3b(0, 255, 0);
-    glPushMatrix();
-    glTranslatef(0, -largo/2.0+anchoCubo/2.0+20, -45);
-    glutSolidSphere(anchoCubo/2.0, 20, 20);
-    glPopMatrix();
+  else if(juego1Perdido){
+    cargarImagenFondo(34);
+    dibujaBaseRegresar("R - Reiniciar");
   }
   else{
+    if (acierto) {
+      cargarImagenFondo(31);
+    }
+    else if(fallo){
+      cargarImagenFondo(32);
+    }
+    else{
+      cargarImagenFondo(5);
+    }
+    // Dibuja base regresar
+    dibujaBaseRegresar("J - Menu");
+
+    glColor3f(0, 0, 0);
+    char puntos[10];
+    sprintf(puntos, "%d",puntosJuego1);
+    glColor3f(0, 0, 0);
+    glRasterPos2i(-ancho/2 + 30, largo/4);
+    for (GLint k = 0; puntos[k]!='\0'; k++)
+    {
+      glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, puntos[k]);
+    }
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+    lucesMaterial(0);
+    int xPos = -50;
+    for (int i = 0; i<vidasJuego1; i++) {
+      glPushMatrix();
+        glTranslatef(xPos, largo/2-50, -25);
+        glRotatef(angulo, 1, 1, 1);
+        glScalef(20,20,20);
+        pesa();
+      glPopMatrix();
+      xPos+=50;
+    }
+    glDisable(GL_LIGHT0);
+    glDisable(GL_LIGHTING);
+
+    Cubo aux;
+    for (int i = 0; i<cantCubos; i++) {
+      lucesMaterial(1);
+      glColor4ub(0, 0, 0,0);       // Color
+      aux = cubos.front();
+      //glRasterPos2f(aux.x, (-largo/2.0)+anchoCubo/2.0+20);
+      glPushMatrix();
+        glTranslatef(aux.x, (-largo/2.0)+anchoCubo/2.0+20, -45);
+        glRotatef(angulo,0,1,0);
+        //glScalef(0.8,1,1);
+        glColor3f(0.098,0.098,0.439);
+        glPushMatrix();
+          glTranslatef(0,-20,-1);
+          glScalef(20,20,5);
+          glutSolidDodecahedron();
+        glPopMatrix();
+        glColor3f(0-117,0.5647,1);
+        glPushMatrix();
+          glScalef(20,20,5);
+          glutSolidDodecahedron();
+        glPopMatrix();
+        glTranslatef(0,0,20);
+        glColor3f(0, 0, 0);
+        glRasterPos2f(0, 0);
+        glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, aux.tecla);
+      glPopMatrix();
+      cubos.pop();
+      cubos.push(aux);
+    }
     glPushMatrix();
-    glBindTexture(GL_TEXTURE_2D, texName[4]);
-        glTranslatef(0, -largo/2.0+anchoCubo/2.0+20, -80);
-        glutWireCube(anchoCubo);
+      glBindTexture(GL_TEXTURE_2D, texName[4]);
+      glTranslatef(0, -largo/2.0+anchoCubo/2.0+20, -80);
+      glutWireCube(anchoCubo);
     glPopMatrix();
 
     // Puse un QUADS en lugar, pero no se si esto sea lo mejor por lo del cubo que quieres manejar
     glPushMatrix();
-        glTranslatef(-50, -largo/2.0+anchoCubo/2.0-30, -80);
-        glBindTexture(GL_TEXTURE_2D, texName[4]);
-        glBegin(GL_QUADS);
-            glColor4ub(255, 255, 255,255);       // Color
-            glTexCoord2f(1.0f, 0.0f);
-            glVertex2f(100, 0);                 // v0
-            glTexCoord2f(1.0f, 1.0f);
-            glVertex2f(100, 100);               // v1
-            glTexCoord2f(0.0f, 1.0f);
-            glVertex2f(0, 100);                 // v2
-            glTexCoord2f(0.0f, 0.0f);
-            glVertex2f(0, 0);                   // v3
-        glEnd();
+      glTranslatef(-50, -largo/2.0+anchoCubo/2.0-30, -80);
+      glBindTexture(GL_TEXTURE_2D, texName[4]);
+      glBegin(GL_QUADS);
+        glColor4ub(255, 255, 255,255);       // Color
+        glTexCoord2f(1.0f, 0.0f);
+        glVertex2f(100, 0);                 // v0
+        glTexCoord2f(1.0f, 1.0f);
+        glVertex2f(100, 100);               // v1
+        glTexCoord2f(0.0f, 1.0f);
+        glVertex2f(0, 100);                 // v2
+        glTexCoord2f(0.0f, 0.0f);
+        glVertex2f(0, 0);                   // v3
+      glEnd();
     glPopMatrix();
   }
 
-  acierto = false;
-  fallo = false;
 }
 
 // Juego 2
@@ -655,108 +709,67 @@ static void pantallaJuego2(){
 
     // Mueve el objeto: manzana
     glPushMatrix();
-        if(objJ2Cont1 < 3){
-            glTranslatef(-210, movY + contJuego2, -25);
-            glRotatef(angulo, 1, 1, 1);
-        }
-        else if(objJ2Cont1 >=3){
-            glTranslatef(-210, movY, -25);
-            glRotatef(310, 0, 1, 0);
-            glRotatef(270, 1, 0, 0);
-        }
+        glTranslatef(-210, movY + contJuego2, -25);
+        glRotatef(angulo, 1, 1, 1);
         glScalef(20,20,20);
         manzana();
     glPopMatrix();
     // Despliega el numero del objeto: manzana
     glPushMatrix();
-        if(objJ2Cont1 < 3){
-            glTranslatef(-220, movY + contJuego2 - 40, 0);
-            letrero("1");
-        }
+        glTranslatef(-220, movY + contJuego2 - 40, 0);
+        letrero("1");
     glPopMatrix();
 
     // Mueve el objeto: pesa
     glPushMatrix();
-        if(objJ2Cont2 < 3){
-            glTranslatef(-126, movY + contJuego2, -25);
-            glRotatef(angulo, 1, 1, 1);
-        }
-        else if(objJ2Cont2 >=3){
-            glTranslatef(-126, movY-10, -25);
-            glRotatef(90, 0, 1, 0);
-        }
+        glTranslatef(-126, movY + contJuego2, -25);
+        glRotatef(angulo, 1, 1, 1);
         glScalef(20,20,20);
         pesa();
     glPopMatrix();
     // Despliega el numero del objeto: pesa
     glPushMatrix();
-        if(objJ2Cont2 < 3){
-            glTranslatef(-136, movY + contJuego2 - 40, 0);
-            letrero("2");
-        }
+        glTranslatef(-136, movY + contJuego2 - 40, 0);
+        letrero("2");
     glPopMatrix();
 
     // Mueve el objeto: jabon
     glPushMatrix();
-        if(objJ2Cont3 < 3){
-            glTranslatef(-42, movY + contJuego2, -25);
-            glRotatef(angulo, 1, 1, 1);
-        }
-        else if(objJ2Cont3 >=3){
-            glTranslatef(-42, movY, -25);
-            glRotatef(90, 0, 1, 0);
-        }
+        glTranslatef(-42, movY + contJuego2, -25);
+        glRotatef(angulo, 1, 1, 1);
         glScalef(20,20,20);
         jabon();
     glPopMatrix();
     // Despliega el numero del objeto: jabon
     glPushMatrix();
-        if(objJ2Cont3 < 3){
-            glTranslatef(-52, movY + contJuego2 - 40, 0);
-            letrero("3");
-        }
+        glTranslatef(-52, movY + contJuego2 - 40, 0);
+        letrero("3");
     glPopMatrix();
 
     // Mueve el objeto: globos
     glPushMatrix();
-        if(objJ2Cont4 < 3){
-            glTranslatef(42, movY + contJuego2, -25);
-            glRotatef(angulo, 1, 1, 1);
-        }
-        else if(objJ2Cont4 >=3){
-            glTranslatef(42, movY, -25);
-            glRotatef(90, 0, 1, 0);
-        }
+        glTranslatef(42, movY + contJuego2, -25);
+        glRotatef(angulo, 1, 1, 1);
         glScalef(20,20,20);
         globos();
     glPopMatrix();
     // Despliega el numero del objeto: globos
     glPushMatrix();
-        if(objJ2Cont4 < 3){
-            glTranslatef(32, movY + contJuego2 - 40, 0);
-            letrero("4");
-        }
+        glTranslatef(32, movY + contJuego2 - 40, 0);
+        letrero("4");
     glPopMatrix();
 
     // Mueve el objeto: cigarro
     glPushMatrix();
-        if(objJ2Cont5 < 3){
-            glTranslatef(126, movY + contJuego2, -25);
-            glRotatef(angulo, 1, 1, 1);
-        }
-        else if(objJ2Cont5 >=3){
-            glTranslatef(126, movY+5, -25);
-            glRotatef(-90, 1, 0, 0);
-        }
-        glScalef(30,30,30);
+        glTranslatef(126, movY + contJuego2, -25);
+        glRotatef(angulo, 1, 1, 1);
+        glScalef(20,20,20);
         cigarro();
     glPopMatrix();
     // Despliega el numero del objeto: cigarro
     glPushMatrix();
-        if(objJ2Cont5 < 3){
-            glTranslatef(116, movY + contJuego2 - 40, 0);
-            letrero("5");
-        }
+        glTranslatef(116, movY + contJuego2 - 40, 0);
+        letrero("5");
     glPopMatrix();
 
     // Mueve el objeto: cama
@@ -775,10 +788,8 @@ static void pantallaJuego2(){
     glPopMatrix();
     // Despliega el numero del objeto: cama
     glPushMatrix();
-        if(objJ2Cont6 < 3){
-            glTranslatef(200, movY + contJuego2 - 40, 0);
-            letrero("6");
-        }
+        glTranslatef(200, movY + contJuego2 - 40, 0);
+        letrero("6");
     glPopMatrix();
 }
 
@@ -877,6 +888,7 @@ void reshape(int anchop, int largop)
 {
   ancho = anchop;
   largo = largop;
+  velocidadCubo = 0.0084 * ancho;
   glViewport(0.0,0.0,(GLdouble) ancho,(GLdouble)  largo);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
@@ -1150,8 +1162,6 @@ void myKeyboard(unsigned char theKey, int mouseX, int mouseY)
     case 'r':
     case 'R':
         // Asignar valores default
-        ancho = 600;
-        largo = 600;
         iSegundos = 0;
         juegoInicio = false;
         ayuda = true;
@@ -1171,14 +1181,17 @@ void myKeyboard(unsigned char theKey, int mouseX, int mouseY)
         objGanados = 0;
         numTip = 1;
 
-      while (cubos.size()!=0) {
-        cubos.pop();
-      }
+        while (cubos.size()!=0) {
+          cubos.pop();
+        }
 
+        juego1Ganado = juego1Perdido = false;
+        puntosJuego1 = 0;
+        vidasJuego1 = 3;
         angulo=-1;
 
         anchoCubo = 100;
-        velocidadCubo = 5;
+        velocidadCubo = 0.0084 * ancho;
         vueltas=0;
         cantCubos=0;
         break;
