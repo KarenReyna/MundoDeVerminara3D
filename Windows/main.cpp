@@ -247,7 +247,7 @@ void initRendering()
 static void timer(int i){
     angulo += 10;
     // Mover los objetos en el J1
-    if (jugando and juego1 and !juego2 and !juego1Perdido and !juego1Ganado) {
+    if (jugando and juego1 and !juego2 and !juego1Perdido and !juego1Ganado and !pausado) {
         if (i ==2) {
             Cubo aux;
             aux.x = ancho;
@@ -581,12 +581,18 @@ static void pantallaJuego1(){
         // Puntos
         glColor3f(0, 0, 0);
         char puntos[10];
-        sprintf(puntos, "%d",puntosJuego1);
+        sprintf(puntos, "%s", "Puntos: ");
+        char puntos2[10];
+        sprintf(puntos2, "%d",puntosJuego1);
         glColor3f(0, 0, 0);
-        glRasterPos2i(-ancho/2 + 30, largo/4);
+        glRasterPos2i(-ancho/2 + 10, largo/4+130);
         for (GLint k = 0; puntos[k]!='\0'; k++)
         {
             glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, puntos[k]);
+        }
+        for (GLint k = 0; puntos2[k]!='\0'; k++)
+        {
+            glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, puntos2[k]);
         }
 
         // Despliega pesas
