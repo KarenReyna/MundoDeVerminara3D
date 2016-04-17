@@ -9,6 +9,7 @@
 #else
 #include <windows.h>
 #include <GL/glut.h>
+#include <MMSystem.h>           // Sound
 #endif
 
 #include <stdlib.h>
@@ -23,7 +24,6 @@
 #include "imageBMP.h"
 #include <assert.h>
 #include <queue>
-#include <MMSystem.h>           // Sound
 
 using namespace std;
 
