@@ -33,6 +33,10 @@ int largo = 600;                // Largo default de vantana
 // Variables para control global
 bool inicio = true, pausado, jugando;
 bool autores, instrucciones, historia, mundos;
+// Saber si ya hubo play de sonidos
+bool notPlayedSoundStart = true;
+bool notPlayedSoundWin = true;
+bool notPlayedSoundGameOver = true;
 
 // Variables para juego 1
 bool juego1 = false, fallo = false, acierto = false;
@@ -247,7 +251,7 @@ void initRendering()
 static void timer(int i){
     angulo += 10;
     // Mover los objetos en el J1
-    if (jugando and juego1 and !juego2 and !juego1Perdido and !juego1Ganado and !pausado) {
+    if (jugando and juego1 and !pausado) {
         if (i ==2) {
             Cubo aux;
             aux.x = ancho;
@@ -273,21 +277,49 @@ static void timer(int i){
             }
         }
     }
-  else{
     // Mover los objetos en el J2
-    if(juego2 and auxJuego2 == 0 and !mostrandoTip and !pausado){
-        contJuego2 += 5;
-        if(contJuego2 > 420)
-            auxJuego2 = 1;
+    else if(jugando and juego2 and !mostrandoTip and !pausado){
+        // Mover los objetos en el J2, hacia arriba o abajo
+        if(auxJuego2 == 0){
+            contJuego2 += 5;
+            if(contJuego2 > 420)
+                auxJuego2 = 1;
+        }
+        else if(auxJuego2 == 1){
+            contJuego2 -= 5;
+            if(contJuego2 < 0)
+                auxJuego2 = 0;
+        }
+        glutTimerFunc(80, timer, 1);
     }
-    else if(juego2 and auxJuego2 == 1 and !mostrandoTip and !pausado){
-        contJuego2 -= 5;
-        if(contJuego2 < 0)
-            auxJuego2 = 0;
+    else{
+        glutTimerFunc(80, timer, 1);
     }
-    glutTimerFunc(80, timer, 1);
-  }
-  glutPostRedisplay();
+    // Play win sound
+    if((juego1Ganado or juego2Ganado) and notPlayedSoundWin){
+        notPlayedSoundWin = false;
+        // Sonido
+        char  rutaSonido[100];
+        sprintf(rutaSonido,"%s%s", fullPath.c_str() , "musica/Win.wav");
+        PlaySound(TEXT(rutaSonido), NULL, SND_ASYNC | SND_FILENAME);
+    }
+    // Play game over sound
+    else if (juego1Perdido and notPlayedSoundGameOver){
+        notPlayedSoundGameOver = false;
+        // Sonido
+        char  rutaSonido[100];
+        sprintf(rutaSonido,"%s%s", fullPath.c_str() , "musica/GameOver.wav");
+        PlaySound(TEXT(rutaSonido), NULL, SND_ASYNC | SND_FILENAME);
+    }
+    // Play background sound
+    if(notPlayedSoundStart){
+        notPlayedSoundStart = false;
+        // Sonido
+        char  rutaSonido[100];
+        sprintf(rutaSonido,"%s%s", fullPath.c_str() , "musica/Ultralounge.wav");
+        PlaySound(TEXT(rutaSonido), NULL, SND_ASYNC | SND_FILENAME | SND_LOOP);
+    }
+    glutPostRedisplay();
 }
 
 // Timer para cambiar las imagenes de la pantalla Juegos
@@ -1088,11 +1120,6 @@ void init(){
     model[7]= *glmReadOBJ(ruta.c_str());
     glmUnitize(&model[7]);
     glmVertexNormals(&model[7],90.0,GL_TRUE);
-
-    // Sonido
-    char  rutaSonido[100];
-    sprintf(rutaSonido,"%s%s", fullPath.c_str() , "musica/Ultralounge.wav");
-    PlaySound(TEXT(rutaSonido), NULL, SND_ASYNC | SND_FILENAME | SND_LOOP);
 }
 
 // Keyboard
@@ -1181,6 +1208,9 @@ void myKeyboard(unsigned char theKey, int mouseX, int mouseY)
             inicio = true;
             pausado = false;
             autores = instrucciones = historia = mundos = false;
+            notPlayedSoundWin = true;
+            notPlayedSoundStart = true;
+            notPlayedSoundGameOver = true;
 
             // Variables para juego 1
             fallo = acierto = juego1Ganado = false;
